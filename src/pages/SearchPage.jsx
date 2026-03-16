@@ -1,5 +1,4 @@
-import { useMemo, useState } from 'react'
-import { professionals } from '../data/mockProfessionals.js'
+import { useEffect, useMemo, useState } from 'react'
 import ProfessionalCard from '../components/ProfessionalCard.jsx'
 import '../styles/SearchPage.css'
 
@@ -7,6 +6,34 @@ export default function SearchPage() {
   const [query, setQuery] = useState('')
   const [location, setLocation] = useState('')
   const [maxPrice, setMaxPrice] = useState('')
+  const [professionals, setProfessionals] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  // Carregar dados dos profissionais do JSON
+  useEffect(() => {
+    async function loadProfessionals() {
+      try {
+        setLoading(true)
+        setError(null)
+        const response = await fetch('/professionals.json')
+        
+        if (!response.ok) {
+          throw new Error('Não foi possível carregar os profissionais')
+        }
+        
+        const data = await response.json()
+        setProfessionals(data.professionals || [])
+      } catch (err) {
+        console.error('Erro ao carregar profissionais:', err)
+        setError('Não conseguimos carregar a lista de profissionais. Por favor, tente novamente mais tarde.')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadProfessionals()
+  }, [])
 
   const filtered = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase()
@@ -29,7 +56,7 @@ export default function SearchPage() {
 
       return matchQuery && matchLocation && matchPrice
     })
-  }, [query, location, maxPrice])
+  }, [query, location, maxPrice, professionals])
 
   return (
     <div className="stack stack-lg">
@@ -103,10 +130,29 @@ export default function SearchPage() {
       <section className="stack" aria-label="Resultados">
         <div className="results-header">
           <h2 className="results-title">Resultados</h2>
-          <div className="results-count">{filtered.length} encontrado(s)</div>
+          {!loading && !error && (
+            <div className="results-count">{filtered.length} encontrado(s)</div>
+          )}
         </div>
 
-        {filtered.length === 0 ? (
+        {loading ? (
+          <div className="loading-state">
+            <div className="loading-spinner">⏳</div>
+            <div className="loading-text">Carregando profissionais...</div>
+          </div>
+        ) : error ? (
+          <div className="error-state">
+            <div className="error-icon">⚠️</div>
+            <div className="error-title">Ops! Algo deu errado</div>
+            <p>{error}</p>
+            <button 
+              className="btn btn-primary" 
+              onClick={() => window.location.reload()}
+            >
+              Tentar novamente
+            </button>
+          </div>
+        ) : filtered.length === 0 ? (
           <div className="empty-state">
             <div className="empty-state-icon">🔍</div>
             <div className="empty-state-title">Nenhum resultado encontrado</div>

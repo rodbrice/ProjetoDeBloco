@@ -1,6 +1,5 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
-import { professionals } from '../data/mockProfessionals.js'
 import '../styles/Components.css'
 
 const TIME_SLOTS = ['09:00', '10:30', '14:00', '15:30', '18:00']
@@ -18,12 +17,39 @@ export default function NewAppointmentPage({ onCreate }) {
   const [searchParams] = useSearchParams()
   const professionalId = searchParams.get('professionalId')
 
-  const professional = useMemo(() => {
-    return professionals.find((p) => p.id === professionalId) || null
-  }, [professionalId])
-
+  const [professionals, setProfessionals] = useState([])
+  const [loading, setLoading] = useState(true)
+  
   const [date, setDate] = useState(todayISO())
   const [time, setTime] = useState(TIME_SLOTS[0])
+
+  useEffect(() => {
+    async function loadProfessionals() {
+      try {
+        const response = await fetch('/professionals.json')
+        const data = await response.json()
+        setProfessionals(data.professionals || [])
+      } catch (err) {
+        console.error('Erro ao carregar profissionais:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+    loadProfessionals()
+  }, [])
+
+  const professional = useMemo(() => {
+    return professionals.find((p) => p.id === professionalId) || null
+  }, [professionalId, professionals])
+
+  if (loading) {
+    return (
+      <div className="loading-state">
+        <div className="loading-spinner">⏳</div>
+        <div className="loading-text">Carregando...</div>
+      </div>
+    )
+  }
 
   if (!professional) {
     return (

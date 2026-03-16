@@ -1,3 +1,32 @@
+/* Botão de favorito grande (para páginas de perfil) */
+.btn-favorite-large {
+  appearance: none;
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+
+.btn-favorite-large:hover {
+  background: white;
+  border-color: white;
+  transform: scale(1.1);
+}
+
+.btn-favorite-large.is-favorite {
+  background: var(--warning);
+  border-color: var(--warning);
+  animation: pulse 0.3s ease;
+}
+
 /* Perfil do Profissional */
 .profile-hero {
   background: linear-gradient(135deg, var(--primary-light), var(--secondary));
@@ -198,4 +227,127 @@
   content: '✓';
   font-size: var(--text-xl);
   font-weight: 700;
+}
+
+/* Página Sobre */
+.about-header {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  margin-bottom: var(--space-5);
+}
+
+.about-title {
+  font-size: var(--text-3xl);
+  margin-bottom: var(--space-2);
+}
+
+.about-subtitle {
+  font-size: var(--text-lg);
+  opacity: 0.95;
+}
+
+.about-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-5);
+  margin-bottom: var(--space-4);
+}
+
+.about-section h2 {
+  font-size: var(--text-xl);
+  margin-bottom: var(--space-3);
+  color: var(--primary);
+}
+
+.feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--space-2);
+}
+
+.feature-list li {
+  padding: var(--space-2);
+  background: var(--bg);
+  border-radius: var(--radius-sm);
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-4);
+}
+
+.team-member {
+  text-align: center;
+  padding: var(--space-3);
+  background: var(--bg);
+  border-radius: var(--radius);
+}
+
+.team-avatar {
+  font-size: 3rem;
+  margin-bottom: var(--space-2);
+}
+
+.team-name {
+  font-weight: 700;
+  margin-bottom: var(--space-1);
+}
+
+.team-role {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.tech-tags {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.tech-tag {
+  padding: 8px 14px;
+  background: var(--primary-light);
+  color: white;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: var(--text-sm);
+}
+
+.about-footer {
+  text-align: center;
+  padding: var(--space-4);
+  color: var(--text-muted);
+}
+
+.about-version {
+  font-size: var(--text-sm);
+  margin-top: var(--space-1);
+}
+
+/* Página Favoritos */
+.favorites-header {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  margin-bottom: var(--space-4);
+  box-shadow: var(--shadow);
+}
+
+.favorites-title {
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  margin-bottom: var(--space-1);
+}
+
+.favorites-subtitle {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
 }

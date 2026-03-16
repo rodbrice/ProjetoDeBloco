@@ -1,0 +1,208 @@
+﻿Projeto de bloco:
+MINDCARE
+Definição de Projeto: Descreva qual a aplicação foi escolhida pelo professor
+para ser desenvolvida.
+R: Cenário escolhido: MINDCARE
+Definição de Escopo e Objetivos: Qual é o objetivo principal da aplicação web
+que desenvolveremos e quais funcionalidades específicas devem ser incluídas
+para atender às necessidades do escopo definido pelo professor?
+R: O objetivo principal desta aplicação é prover serviços de atendimentos psicológicos, com
+área específica de anotações; calendário acessível com marcações onde se encontram os
+serviços agendados; local de preenchimento de dados profissional/paciente, possuindo tipos
+de perfis diferentes; pesquisa por local, especialidade, horários disponíveis e valores;
+sistema de voluntários: pesquisadores, estudantes, profissionais que buscam oferecer
+serviços voluntários podem se inscrever através de área específica no próprio site; parcerias
+com casas de repouso e centros de reabilitação, cujo valor se dilui na mensalidade dos
+familiares (incluir em recibo gerado em uma página diferente); aba de pagamentos; todos os
+logins serão checados através de ferramentas de verificação.
+Gestão Ágil do Projeto: Como organizaremos o trabalho seguindo os preceitos
+do Agile Scrum?
+R: O grupo (Brice, Karina e Sâmela) será organizado e dividido por responsabilidades de
+acordo com as funcionalidades. Inicialmente, o trabalho será baseado nos user stories
+definidos no planejamento da sprint e adicionados a este documento.
+Um Drive foi criado para o compartilhamento das informações do projeto, incluindo um
+modelo de documento para anotações das reuniões futuras. Todos os membros da equipe
+têm acesso às informações compartilhadas nesse Drive.
+A comunicação assertiva é o foco, garantindo um bom follow-up, mesmo nas reuniões orais.
+As notas das reuniões serão registradas em um documento compartilhado, e o Google Meet
+será utilizado como ferramenta de chamada, principalmente pelo fator Gemini Notes, que
+oferece transcrição de áudio e sumarização dos principais tópicos discutidos. Dessa forma,
+o processo de troca de ideias e construção do projeto será mantido de forma clara e
+organizada.
+Os códigos serão compartilhados via git na página do projeto para que esteja de fácil
+acesso para todos os desenvolvedores envolvidos no processo de desenvolvimento.
+Quais serão nossos sprints, como definiremos as tarefas e como as
+atribuiremos para assegurar o desenvolvimento efetivo e o cumprimento dos
+prazos? Mostre uma primeira versão do cronograma de desenvolvimento do
+projeto.
+R
+Sprint Semana Foco Entregas
+0 1 Planejamento TP1
+12 2-3 Login e Perfis TP2
+2 4-5 Busca e Agendamentos TP3
+3 6-7 Pagamentos e parcerias TP4
+4 8-9 Extensão e voluntariado TP5
+5 10-11 Acessibilidade e entrega final Entrega
+Artefatos, Papéis e Eventos do Scrum: Como você planeja incorporar os
+artefatos, papéis, e eventos do Scrum no desenvolvimento da aplicação web?
+Descreva como cada elemento será utilizado para garantir um fluxo de
+trabalho ágil e eficiente.
+Dentro da estrutura de como os papéis serão distribuídos para alcançar a estruturação e
+construção contínua do projeto. Fica dividido dessa forma: Karina atuará como PO
+responsável por definir prioridades e revisar o produto para que atenda aos objetivos, user
+cases e planejamentos definidos em reunião; o Brice será o Scrum Master, facilitando o
+processo e ajudando na implementação para facilitar a resolução de problemas de
+desenvolvimento; e Sâmela ficará responsavel pela estruturação e revisao dos códigos de
+desenvolvimento, responsável pela implementação das funcionalidades e entregas.
+Criação de Histórias de Usuário: Como você irá estruturar as histórias de usuário para este
+projeto? Crie duas histórias de usuário que capturam requisitos funcionais e não funcionais,
+incluindo responsividade, consumo de dados de uma fonte externa, e funcionalidades
+específicas para a versão mobile que utilizem gestos do usuário.
+CRIAÇÃO DE HISTÓRIAS DE USUÁRIO
+História de Usuário #1 - Busca de Psicólogos (Paciente)
+Como Maria, 28 anos, estudante universitária com ansiedade,
+Eu quero encontrar um psicólogo perto da minha casa que atenda pelo preço que posso
+pagar,
+Para que eu consiga começar meu tratamento sem precisar viajar muito ou gastar além do
+meu orçamento.
+Critérios de Aceitação:
+● Poder filtrar por bairro, especialidade (ansiedade, depressão, etc.) e faixa de preço
+● Sistema busca CEP automaticamente via API externa
+● No celular, arrastar o card do psicólogo para direita salva nos favoritos
+● Arrastar para esquerda descarta da lista
+● Funciona bem tanto no celular quanto no notebook
+● Resultados aparecem em até 3 segundos
+História de Usuário #2 - Modo Alto Contraste (Acessibilidade)
+Como João, 45 anos, com baixa visão devido a degeneração macular,
+Eu quero poder aumentar o contraste das cores da tela,
+Para que eu consiga ler os textos e usar o aplicativo sem forçar minha visão ou pedir ajuda.
+Critérios de Aceitação:
+● Segurar o dedo no logo por 2 segundos ativa/desativa o modo
+● Cores com contraste forte (preto/branco ou amarelo/preto)
+● Aplicativo lembra da minha escolha quando eu voltar
+● Letras ficam maiores automaticamente
+● Todos os botões grandes o suficiente para tocar sem errar
+História de Usuário #3 - Gestão de Agenda (Psicólogo)
+Como Dra. Ana Paula, psicóloga clínica com consultório próprio,
+Eu quero visualizar minha agenda semanal e fazer anotações sobre cada paciente após as
+sessões,
+Para que eu consiga organizar meus atendimentos e manter registro atualizado de cada
+caso sem usar cadernos físicos.
+Critérios de Aceitação:
+● Calendário mostrando todos os agendamentos da semana
+● Ao clicar no horário, abrir ficha do paciente
+● Área de anotações com salvamento automático
+● Histórico de sessões anteriores acessível
+● Notificação 15 minutos antes de cada consulta
+● Acesso rápido pelo celular entre atendimentos
+História de Usuário #4 - Projetos de Extensão (Estudantes de
+Psicologia)
+Como Plinio, 24 anos, estudante universitário da área de psicologia,
+Eu quero utilizar uma ferramenta que me permita conectar minhas habilidades aprendidas
+em sala de aula com a comunidade
+Para que eu consiga realizar um projeto de extensão focado em melhoramento da saúde
+mental da cidade onde faço faculdade
+Critérios de Aceitação:
+● Capacidade de indentificar professores mentores por áreas de interesse de pesquisa
+● Ficha de inscrição aplicada apartir de qual faculdade está cursando
+● Contagem de horas para certificação acadêmica do trabalho realizado
+● Validação da certificação acadêmica pelo professor orientador
+● Ferramenta de acesso linkada ao email institucional
+● Ferramenta de acesso linkada ao calendário
+● Plataforma de acesso tanto mobile quanto dWeb
+História de Usuário #5 - Projetos de Extensão (Professores da área de
+pesquisa em Psicologia com foco em projeto sociais)
+Como Vânia, 39 anos, professora-doutora na área de psicologia,
+Eu quero utilizar uma ferramenta que me permita conectar meu lattes de pesquisa na
+aplicabilidade social de comunidades aos arredores da universidade assim como conectar
+com estudantes para ajudar na aplicação da metodologia de pesquisa no projeto de
+extensão
+Para que eu consiga construir um ambiente metodológico para a aplicação da pesquisa
+com foco nas pessoas.
+Critérios de Aceitação:
+● Capacidade de estruturar quais são os âmbitos da pesquisa e filtrar pessoas que
+estejam alinhadas com aspectos definidos como apenas mulheres 30+ ou crianças
+com autismo nível 3, etc.
+● Ficha de inscrição aplicada para abrir seleção de projeto de extensão apenas para
+estudantes do 3rd ano+
+● Bloco de notas referente as orientações e consultas psicologicas feitas
+● Ferramenta de acesso linkada ao calendário
+● Plataforma de acesso tanto mobile quanto dWeb
+História de Usuário #6 - Informações pessoais (Privacidade dos
+usuários)
+Carlo, 32 anos. Como profissional de tecnologia que valoriza discrição, gostaria de poder
+controlar quais informações pessoais ficam visíveis para os psicólogos e outros usuários,
+Para que eu consiga utilizar a plataforma sem revelar dados sensíveis, mantendo meu
+anonimato e me sentindo seguro.
+Critérios de Aceitação:
+● Pode escolher ocultar ou exibir:
+Celular
+Gênero
+Nome de nascimento
+Foto de perfil;
+● Interface deixa claro o que está visível e o que está oculto;
+● Default: informações ficam visíveis;
+● Psicólogos visualizam informações acerca de diagnósticos ou liberadas pelo
+paciente;
+● Pode alterar preferências a qualquer momento;
+● Mudanças de privacidade são salvas instantaneamente;
+● Toda troca de informação é criptografada;
+● Sistema avisa o usuário quando determinado dado oculto é necessário para
+agendamentos ou pagamento.
+INTERATIVIDADE NA APLICAÇÃO WEB/MOBILE
+Interações Básicas Disponíveis
+1. Login e Cadastro
+● Formulários de entrada com validação automática
+● Escolha do tipo de perfil (paciente/psicólogo/voluntário)
+● Edição de dados pessoais
+2. Busca de Psicólogos
+● Pesquisa com filtros (local, especialidade, horário)
+● Mobile: Arrastar cards para favoritar ou descartar
+● Web: Clique para expandir detalhes
+3. Agendamento
+● Calendário interativo
+● Seleção de data e horário
+● Confirmação com resumo da consulta
+4. Navegação
+● Menu principal (lateral na web, inferior no mobile)
+● Botão voltar sempre visível
+● Indicador de página atual
+5. Anotações (Psicólogos)
+● Editor de texto com salvamento automático
+● Organização por paciente
+6. Search
+● Ferramenta de busca por áreas de atuação
+● Busca por Psicólogos - Filtragem por tempo de atuação, gênero, area da psicologia
+(ie, TCC)
+● Busca por Orientadores - Filtragem por aspectos de gêneros, faculdade, area da
+psicologia (ie, TCC), foco de pesquisa
+7. Acessibilidade
+● Modo alto contraste (long press no logo)
+● Ajuste de tamanho de fonte
+● Navegação por teclado
+Framework: Explique como os frameworks ReactJS e React Native irão ajudar a cumprir os
+requisitos descritos anteriormente.
+FRAMEWORK: JUSTIFICATIVA PARA UTILIZAÇÃO DE
+REACTJS E REACT NATIVE
+Análise da Escolha Tecnológica
+Considerando o escopo do projeto MindCare e o perfil da equipe de desenvolvimento, a
+escolha dos frameworks ReactJS (versão web) e React Native (versão mobile) se
+fundamenta nos seguintes aspectos:
+1. Reutilização de Código e Componentização
+A arquitetura baseada em componentes do React permite desenvolver elementos isolados e
+reutilizáveis. Esta abordagem facilita a divisão de tarefas entre os três integrantes da
+equipe, em que cada componente pode ser desenvolvido de forma independente e
+posteriormente integrado. Por exemplo, um componente "CardPsicologo" pode ser utilizado
+em múltiplas telas da aplicação sem necessidade de reescrita.
+2. Compatibilidade Cross-Platform
+O requisito do projeto de possuir versões web e mobile é atendido eficientemente através da
+combinação ReactJS + React Native. Ambas as tecnologias compartilham a mesma lógica
+de programação e princípios de componentização, permitindo reaproveitamento de
+aproximadamente 60-70% do código entre as plataformas. Isto otimiza significativamente o
+tempo de desenvolvimento.
+3. Ecossistema e Documentação
+React possui uma comunidade ampla e ativa, resultando em:
+● Extensa documentação oficial
+● Abundância de recursos educacionais (tutoriais, cursos, artigos)
+● Bibliotecas de terceiros testadas e mantidas
+● Suporte comunitário através de fóruns especializados.

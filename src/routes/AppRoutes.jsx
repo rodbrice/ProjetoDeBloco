@@ -4,6 +4,8 @@ import SearchPage from '../pages/SearchPage.jsx'
 import ProfessionalPage from '../pages/ProfessionalPage.jsx'
 import NewAppointmentPage from '../pages/NewAppointmentPage.jsx'
 import AppointmentsPage from '../pages/AppointmentsPage.jsx'
+import FavoritesPage from '../pages/FavoritesPage.jsx'
+import AboutPage from '../pages/AboutPage.jsx'
 import NotFoundPage from '../pages/NotFoundPage.jsx'
 
 export default function AppRoutes({ appointments, appointmentActions }) {
@@ -28,6 +30,8 @@ export default function AppRoutes({ appointments, appointmentActions }) {
             />
           }
         />
+        <Route path="/favorites" element={<FavoritesPage />} />
+        <Route path="/about" element={<AboutPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>

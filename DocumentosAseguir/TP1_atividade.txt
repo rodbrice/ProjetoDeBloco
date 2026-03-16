@@ -1,0 +1,15 @@
+﻿Olá, Brice,
+
+Chegamos em uma das etapas de preparação! A cada Teste de Performance (TP) você terá a oportunidade de praticar os conhecimentos adquiridos e receber feedbacks relevantes para o seu aprendizado.
+
+No primeiro Teste de Performance, com a orientação do professor, definimos a aplicação que seria desenvolvida. A partir dessa definição, foram criadas as histórias dos usuários, que servirão como base para o desenvolvimento das primeiras funcionalidades da nossa aplicação web. Agora, nesta etapa do projeto de Desenvolvimento Front-end com Frameworks, iremos dar continuidade ao trabalho iniciado, avançando no desenvolvimento da aplicação.
+
+Após estabelecer as histórias dos usuários, nosso foco será na criação, adaptação e uso de estilos de componentes React para uma aplicação single-page. A abordagem Mobile-First será nossa prioridade, garantindo que a aplicação seja otimizada para dispositivos móveis, mas que também ofereça uma experiência satisfatória em desktops. Para tal, iremos:
+
+Atualizar as histórias de usuários com base nos feedbacks fornecidos pelo professor;
+Criar uma aplicação React JS que seja single-page;
+Desenvolver componentes React dinâmicos e reutilizáveis que formarão a base da nossa aplicação single-page, com foco na otimização para dispositivos móveis;
+Criar folhas de estilo que assegurem uma experiência de usuário fluida e agradável em dispositivos móveis, aplicando os princípios de design responsivo.
+Este projeto representa uma oportunidade significativa para aplicar e expandir suas habilidades em desenvolvimento front-end, com foco especial na criação de uma experiência de usuário otimizada para dispositivos móveis. Boa sorte e que este projeto seja uma etapa valiosa no seu progresso como desenvolvedor front-end!
+
+Assim que terminar, salve seu trabalho em ZIP nomeando o arquivo conforme a regra “nome_sobrenome_PB_TP2.PDF” e poste como resposta a este TP.

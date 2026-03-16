@@ -1,0 +1,82 @@
+﻿{
+  "professionals": [
+    {
+      "id": "ana-souza",
+      "name": "Dra. Ana Souza",
+      "specialties": ["Ansiedade", "Autoconhecimento", "Terapia Cognitivo-Comportamental"],
+      "location": "Centro",
+      "price": 120,
+      "bio": "Atendimento acolhedor com foco em objetivos práticos e bem-estar no dia a dia.",
+      "tags": ["Presencial", "Online"],
+      "experience": "8 anos de experiência",
+      "approach": "Abordagem humanista com técnicas de TCC"
+    },
+    {
+      "id": "bruno-lima",
+      "name": "Dr. Bruno Lima",
+      "specialties": ["Depressão", "Estresse", "Relacionamentos"],
+      "location": "Zona Sul",
+      "price": 160,
+      "bio": "Experiência com adultos e jovens; abordagem baseada em evidências e escuta ativa.",
+      "tags": ["Online"],
+      "experience": "12 anos de experiência",
+      "approach": "Psicanálise moderna"
+    },
+    {
+      "id": "carla-mendes",
+      "name": "Dra. Carla Mendes",
+      "specialties": ["Transtornos de Humor", "Burnout", "Carreira"],
+      "location": "Zona Norte",
+      "price": 140,
+      "bio": "Foco em saúde mental no trabalho e construção de rotinas sustentáveis.",
+      "tags": ["Presencial"],
+      "experience": "6 anos de experiência",
+      "approach": "Terapia Cognitivo-Comportamental"
+    },
+    {
+      "id": "daniel-costa",
+      "name": "Dr. Daniel Costa",
+      "specialties": ["TDAH", "Ansiedade", "Desenvolvimento Pessoal"],
+      "location": "Centro",
+      "price": 130,
+      "bio": "Especializado em adultos jovens e questões de foco e produtividade.",
+      "tags": ["Online", "Presencial"],
+      "experience": "5 anos de experiência",
+      "approach": "Terapia comportamental e coaching"
+    },
+    {
+      "id": "elisa-rocha",
+      "name": "Dra. Elisa Rocha",
+      "specialties": ["Luto", "Depressão", "Autoestima"],
+      "location": "Zona Sul",
+      "price": 150,
+      "bio": "Acompanhamento sensível para momentos difíceis da vida, com escuta empática.",
+      "tags": ["Presencial"],
+      "experience": "10 anos de experiência",
+      "approach": "Gestalt-terapia"
+    },
+    {
+      "id": "felipe-santos",
+      "name": "Dr. Felipe Santos",
+      "specialties": ["Vícios", "Transtornos Alimentares", "Compulsões"],
+      "location": "Zona Oeste",
+      "price": 170,
+      "bio": "Tratamento especializado para dependências e comportamentos compulsivos.",
+      "tags": ["Online"],
+      "experience": "15 anos de experiência",
+      "approach": "Terapia Cognitivo-Comportamental intensiva"
+    },
+    {
+      "id": "gabriela-alves",
+      "name": "Dra. Gabriela Alves",
+      "specialties": ["Relacionamentos", "Terapia de Casal", "Sexualidade"],
+      "location": "Centro",
+      "price": 180,
+      "bio": "Especialista em vínculos afetivos e dinâmicas relacionais saudáveis.",
+      "tags": ["Presencial", "Online"],
+      "experience": "9 anos de experiência",
+      "approach": "Terapia sistêmica familiar"
+    }
+  ]
+}
+
