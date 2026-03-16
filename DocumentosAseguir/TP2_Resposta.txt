@@ -2,11 +2,8 @@
 Plataforma de Saúde Mental MindCare 
 Visão Geral 
 A plataforma MindCare visa simplificar a terapia online, 
-conectando psicólogos a pacientes em um ambiente seguro 
-e intuitivo. Para profissionais, oferece gestão de agenda, 
-registro de sessões e comunicação protegida. Pacientes 
-ganham acesso facilitado a terapeutas e acompanhamento 
-do tratamento. Com foco absoluto em privacidade e 
+conectando psicólogos a pacientes em um ambiente seguro e intuitivo. Para profissionais, oferece gestão de agenda, registro de sessões e comunicação protegida. Pacientes 
+ganham acesso facilitado a terapeutas e acompanhamento do tratamento. Com foco absoluto em privacidade e 
 usabilidade, a solução combina ferramentas práticas com 
 design empático, transformando a experiência terapêutica 
 digital para ambos os lados. 
@@ -52,10 +49,9 @@ atualmente realizada através de canais não especializados
 que não garantem a privacidade necessária. A gestão de 
 documentos e recibos também foi apontada como um 
 processo burocrático que consome tempo valioso. 
-Do lado dos pacientes, as principais dificuldades 
-concentram-se no acesso a profissionais adequados e no 
-acompanhamento de seu próprio progresso terapêutico. 
-Muitos relataram ansiedade em relação ao período entre 
+Do lado dos pacientes, as principais dificuldades
+concentram-se no acesso a profissionais adequados e no acompanhamento do próprio progresso terapêutico. 
+Muitos relataram ansiedade quanto ao período entre 
 sessões, com necessidade de um canal seguro para dúvidas 
 emergenciais. A organização de documentos, como recibos 
 para reembolso de planos de saúde, também se mostrou um 
@@ -80,10 +76,7 @@ A experiência do usuário deve ser cuidadosamente
 desenhada para atender às sensibilidades específicas deste 
 contexto, 
 garantindo 
-interfaces 
-que 
-transmitam 
-tranquilidade e profissionalismo. A privacidade deve permear 
+interfaces que transmitam tranquilidade e profissionalismo. A privacidade deve permear 
 todas as decisões de design, desde a arquitetura técnica até 
 os menores detalhes da interface. 
 Esta análise preliminar indica que a MindCare pode 
