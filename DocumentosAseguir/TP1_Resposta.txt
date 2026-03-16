@@ -29,8 +29,9 @@ será utilizado como ferramenta de chamada, principalmente pelo fator Gemini Not
 oferece transcrição de áudio e sumarização dos principais tópicos discutidos. Dessa forma,
 o processo de troca de ideias e construção do projeto será mantido de forma clara e
 organizada.
-Os códigos serão compartilhados via git na página do projeto para que esteja de fácil
-acesso para todos os desenvolvedores envolvidos no processo de desenvolvimento.
+Os códigos serão compartilhados via Git na página do projeto para que esteja de fácil
+acesso para todos os desenvolvedores envolvidos no processo de desenvolvimento que farão o processo em conjunto
+mas manterão os códigos dentro da mesma pasta para verificação e compartilhamento.
 Quais serão nossos sprints, como definiremos as tarefas e como as
 atribuiremos para assegurar o desenvolvimento efetivo e o cumprimento dos
 prazos? Mostre uma primeira versão do cronograma de desenvolvimento do
@@ -44,7 +45,7 @@ Sprint Semana Foco Entregas
 4 8-9 Extensão e voluntariado TP5
 5 10-11 Acessibilidade e entrega final Entrega
 Artefatos, Papéis e Eventos do Scrum: Como você planeja incorporar os
-artefatos, papéis, e eventos do Scrum no desenvolvimento da aplicação web?
+artefatos, papéis e eventos do Scrum no desenvolvimento da aplicação web?
 Descreva como cada elemento será utilizado para garantir um fluxo de
 trabalho ágil e eficiente.
 Dentro da estrutura de como os papéis serão distribuídos para alcançar a estruturação e
@@ -52,11 +53,11 @@ construção contínua do projeto. Fica dividido dessa forma: Karina atuará com
 responsável por definir prioridades e revisar o produto para que atenda aos objetivos, user
 cases e planejamentos definidos em reunião; o Brice será o Scrum Master, facilitando o
 processo e ajudando na implementação para facilitar a resolução de problemas de
-desenvolvimento; e Sâmela ficará responsavel pela estruturação e revisao dos códigos de
+desenvolvimento; e Sâmela ficará responsável pela estruturação e revisão dos códigos de
 desenvolvimento, responsável pela implementação das funcionalidades e entregas.
 Criação de Histórias de Usuário: Como você irá estruturar as histórias de usuário para este
 projeto? Crie duas histórias de usuário que capturam requisitos funcionais e não funcionais,
-incluindo responsividade, consumo de dados de uma fonte externa, e funcionalidades
+incluindo responsividade, consumo de dados de uma fonte externa e funcionalidades
 específicas para a versão mobile que utilizem gestos do usuário.
 CRIAÇÃO DE HISTÓRIAS DE USUÁRIO
 História de Usuário #1 - Busca de Psicólogos (Paciente)
@@ -68,12 +69,12 @@ meu orçamento.
 Critérios de Aceitação:
 ● Poder filtrar por bairro, especialidade (ansiedade, depressão, etc.) e faixa de preço
 ● Sistema busca CEP automaticamente via API externa
-● No celular, arrastar o card do psicólogo para direita salva nos favoritos
-● Arrastar para esquerda descarta da lista
+● No celular, arrastar o card do psicólogo para a direita salva nos favoritos
+● Arrastar para a esquerda descarta da lista
 ● Funciona bem tanto no celular quanto no notebook
 ● Resultados aparecem em até 3 segundos
 História de Usuário #2 - Modo Alto Contraste (Acessibilidade)
-Como João, 45 anos, com baixa visão devido a degeneração macular,
+Como João, 45 anos, com baixa visão devido à degeneração macular,
 Eu quero poder aumentar o contraste das cores da tela,
 Para que eu consiga ler os textos e usar o aplicativo sem forçar minha visão ou pedir ajuda.
 Critérios de Aceitação:
@@ -97,23 +98,23 @@ Critérios de Aceitação:
 ● Acesso rápido pelo celular entre atendimentos
 História de Usuário #4 - Projetos de Extensão (Estudantes de
 Psicologia)
-Como Plinio, 24 anos, estudante universitário da área de psicologia,
+Como Plínio, 24 anos, estudante universitário da área de psicologia,
 Eu quero utilizar uma ferramenta que me permita conectar minhas habilidades aprendidas
 em sala de aula com a comunidade
 Para que eu consiga realizar um projeto de extensão focado em melhoramento da saúde
 mental da cidade onde faço faculdade
 Critérios de Aceitação:
-● Capacidade de indentificar professores mentores por áreas de interesse de pesquisa
-● Ficha de inscrição aplicada apartir de qual faculdade está cursando
+● Capacidade de identificar professores mentores por áreas de interesse de pesquisa
+● Ficha de inscrição aplicada a partir de qual faculdade está cursando
 ● Contagem de horas para certificação acadêmica do trabalho realizado
 ● Validação da certificação acadêmica pelo professor orientador
 ● Ferramenta de acesso linkada ao email institucional
 ● Ferramenta de acesso linkada ao calendário
 ● Plataforma de acesso tanto mobile quanto dWeb
 História de Usuário #5 - Projetos de Extensão (Professores da área de
-pesquisa em Psicologia com foco em projeto sociais)
+pesquisa em psicologia com foco em projeto sociais)
 Como Vânia, 39 anos, professora-doutora na área de psicologia,
-Eu quero utilizar uma ferramenta que me permita conectar meu lattes de pesquisa na
+Eu quero utilizar uma ferramenta que me permita conectar meu Lattes de pesquisa na
 aplicabilidade social de comunidades aos arredores da universidade assim como conectar
 com estudantes para ajudar na aplicação da metodologia de pesquisa no projeto de
 extensão
@@ -125,7 +126,7 @@ estejam alinhadas com aspectos definidos como apenas mulheres 30+ ou crianças
 com autismo nível 3, etc.
 ● Ficha de inscrição aplicada para abrir seleção de projeto de extensão apenas para
 estudantes do 3rd ano+
-● Bloco de notas referente as orientações e consultas psicologicas feitas
+● Bloco de notas referente às orientações e consultas psicológicas feitas
 ● Ferramenta de acesso linkada ao calendário
 ● Plataforma de acesso tanto mobile quanto dWeb
 História de Usuário #6 - Informações pessoais (Privacidade dos
@@ -172,10 +173,10 @@ Interações Básicas Disponíveis
 ● Organização por paciente
 6. Search
 ● Ferramenta de busca por áreas de atuação
-● Busca por Psicólogos - Filtragem por tempo de atuação, gênero, area da psicologia
+● Busca por psicólogos - Filtragem por tempo de atuação, gênero, área da psicologia
 (ie, TCC)
-● Busca por Orientadores - Filtragem por aspectos de gêneros, faculdade, area da
-psicologia (ie, TCC), foco de pesquisa
+● Busca por Orientadores - Filtragem por aspectos de gêneros, faculdade, área da
+psicologia (i.e., TCC), foco de pesquisa
 7. Acessibilidade
 ● Modo alto contraste (long press no logo)
 ● Ajuste de tamanho de fonte
