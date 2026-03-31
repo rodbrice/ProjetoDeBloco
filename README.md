@@ -1,9 +1,9 @@
 # 💙 MindCare - Plataforma de Saúde Mental
 
-**Versão:** 1.4.0 (TP4)
-**Status:** ✅ Em desenvolvimento ativo
+**Versão:** 2.0.0 (TP5) 🎉  
+**Status:** ✅ Implementação Completa
 
-> Conectando pessoas a cuidados com a saúde mental através de uma plataforma web intuitiva e segura.
+> Conectando pessoas a cuidados com a saúde mental através de uma plataforma web intuitiva, segura e autenticada.
 
 ---
 
@@ -11,11 +11,21 @@
 
 O **MindCare** é uma plataforma desenvolvida em React que simplifica o acesso à terapia online, conectando psicólogos a pacientes em um ambiente digital seguro e empático.
 
+### 🆕 Novidades TP5
+
+- 🔐 **Autenticação** - Sistema de login/logout com Context API
+- 📷 **Câmera** - Captura de foto de perfil usando câmera do dispositivo
+- 🛡️ **Rotas Protegidas** - Acesso controlado a funcionalidades privadas
+- 👤 **Perfis** - Página de perfil com foto e informações do usuário
+- 📱 **iOS & Android** - Compatibilidade testada em ambas plataformas
+
 ### Principais Funcionalidades
 
 - 🔍 **Busca Inteligente** - Encontre profissionais por especialidade, localização e preço
 - ⭐ **Favoritos** - Salve seus psicólogos preferidos com gestos intuitivos
 - 📅 **Agendamento** - Marque consultas de forma simples e rápida
+- 🔐 **Autenticação** - Login seguro e gerenciamento de sessão
+- 📷 **Foto de Perfil** - Tire foto com câmera do celular
 - 📱 **Mobile-First** - Experiência otimizada para dispositivos móveis
 - 🎨 **Design Empático** - Interface que transmite tranquilidade e profissionalismo
 
@@ -43,6 +53,30 @@ npm run dev
 ```
 
 Acesse: [http://localhost:5173](http://localhost:5173)
+
+### ⚡ Teste Rápido (TP5)
+
+```bash
+# 1. Inicie o servidor
+npm run dev
+
+# 2. Acesse http://localhost:5173
+
+# 3. Faça login:
+#    - Email: qualquer@email.com
+#    - Senha: 123456 (mínimo 6 caracteres)
+
+# 4. Teste a câmera:
+#    - Clique no avatar ou vá em Perfil
+#    - Clique "Adicionar Foto"
+#    - Tire uma foto (funciona em celular!)
+
+# 5. Para testar no celular:
+#    - Descubra seu IP: ipconfig
+#    - Acesse: http://SEU_IP:5173
+```
+
+📖 **Guia Completo:** Veja [COMO_TESTAR.md](./COMO_TESTAR.md)
 
 ### Scripts Disponíveis
 
