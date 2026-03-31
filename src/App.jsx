@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { AuthProvider } from './context/AuthContext.jsx'
 import AppRoutes from './routes/AppRoutes.jsx'
 import { loadAppointments, saveAppointments } from './data/appointmentsStorage.js'
 
@@ -31,10 +32,12 @@ function App() {
   }, [])
 
   return (
-    <AppRoutes
-      appointments={appointments}
-      appointmentActions={appointmentActions}
-    />
+    <AuthProvider>
+      <AppRoutes
+        appointments={appointments}
+        appointmentActions={appointmentActions}
+      />
+    </AuthProvider>
   )
 }
 
