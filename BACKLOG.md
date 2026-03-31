@@ -135,33 +135,385 @@
 
 ---
 
-## ⏳ EM DESENVOLVIMENTO - TP5 (Próximo)
+## 🚀 EM DESENVOLVIMENTO - TP5 (Atual)
 
-### 🔐 Autenticação e Backend Real
+**Data de Início:** 31/03/2026  
+**Data de Entrega:** Maio 2026  
+**Objetivo:** Implementar autenticação, perfis diferenciados, e uso de câmera do dispositivo
 
-**Prioridade:** 🔴 Alta  
-**Responsável:** Brice (Scrum Master)  
-**Prazo:** Sprint 4 (Semanas 8-9)
+### 📋 NOVOS REQUISITOS DO PROFESSOR
 
-- [ ] Integrar Firebase Authentication
-  - [ ] Login com email/senha
-  - [ ] Login com Google
-  - [ ] Recuperação de senha
-  - [ ] Registro de novos usuários
-- [ ] Criar tipos de perfil (Paciente/Psicólogo)
-- [ ] Proteção de rotas (AuthGuard)
-- [ ] Persistência de sessão
-- [ ] Firebase Firestore para dados
-- [ ] Migrar localStorage → Firestore
-- [ ] Sincronização em tempo real
-- [ ] Logout seguro
-
-**Estimativa:** 24 horas de dev  
-**Valor:** Segurança e dados reais
+1. ✅ **Sistema de autenticação** para acesso às páginas internas
+2. ✅ **Uso de recurso do celular** (Câmera) dentro do aplicativo
+3. ✅ **Tratamento de diferenças iOS vs Android** para versão mobile
 
 ---
 
-### 💳 Sistema de Pagamentos
+### 🔴 P0 - CRÍTICO (Semana 1-2): Autenticação
+
+**Responsável:** Pessoa 1 (Brice)  
+**Estimativa:** 18 horas  
+**Bloqueante:** Sim (outras features dependem)
+
+#### Firebase Setup e Context
+- [ ] Instalar Firebase SDK (`npm install firebase`)
+- [ ] Configurar Firebase project (console.firebase.google.com)
+- [ ] Criar `src/services/firebase.js` (init Firebase)
+- [ ] Habilitar Authentication (Email/Password + Google)
+- [ ] Habilitar Firestore Database
+- [ ] Habilitar Storage
+
+#### AuthContext e Hooks
+- [ ] Criar `src/context/AuthContext.jsx`
+  - Estado: user, loading, error
+  - Funções: login, logout, register, updateProfile
+- [ ] Criar `src/hooks/useAuth.js` (acessar contexto)
+- [ ] Implementar persistência de sessão (Firebase SDK automático)
+- [ ] Atualizar `src/App.jsx` (envolver em AuthProvider)
+
+#### Route Guards
+- [ ] Criar `src/components/PrivateRoute.jsx` (requer autenticação)
+- [ ] Criar `src/components/PatientRoute.jsx` (apenas pacientes)
+- [ ] Criar `src/components/PsychologistRoute.jsx` (apenas psicólogos)
+- [ ] Atualizar `src/routes/AppRoutes.jsx` (proteger rotas)
+
+#### Páginas de Autenticação
+- [ ] Criar `src/pages/LoginPage.jsx`
+  - Campos: email, senha
+  - Botões: Entrar, Google OAuth, Esqueci senha
+  - Validações: email válido, senha mínimo 6 caracteres
+  - Estados: loading, erro (credenciais inválidas)
+- [ ] Criar `src/pages/RegisterPage.jsx`
+  - Campos: nome, email, senha, confirmar senha
+  - Seletor: "Sou Paciente" ou "Sou Psicólogo"
+  - Checkbox: "Aceito os termos"
+  - Criar documento em Firestore (`users/{uid}`)
+- [ ] Criar `src/pages/ForgotPasswordPage.jsx`
+  - Campo: email
+  - Envia email de recuperação (Firebase)
+
+#### Testes
+- [ ] `src/context/AuthContext.test.jsx` (login, logout, register)
+- [ ] `src/components/PrivateRoute.test.jsx` (redirecionamento)
+- [ ] `src/pages/LoginPage.test.jsx` (validações, submissão)
+- [ ] Mock Firebase Auth nos testes
+
+**Resultado:** Sistema de autenticação funcional, rotas protegidas
+
+---
+
+### 🔴 P1 - ALTA (Semana 2-3): Perfis Diferenciados
+
+**Responsável:** Pessoa 2 (Karina)  
+**Estimativa:** 16 horas  
+**Dependência:** P0 (Auth Context)
+
+#### Firestore Collections
+- [ ] Estruturar coleções:
+  - `users` (comum): uid, email, displayName, photoURL, userType
+  - `patients`: userId, preferences, appointments[]
+  - `psychologists`: userId, crp, specialties[], bio, price, verified
+- [ ] Criar documento ao registrar usuário
+
+#### Dashboards
+- [ ] Criar `src/pages/PatientDashboard.jsx`
+  - Seções: Próximas consultas, Favoritos, Atalhos
+  - Fetch agendamentos do Firestore
+  - Rota: `/patient/dashboard`
+- [ ] Criar `src/pages/PsychologistDashboard.jsx`
+  - Seções: Agenda do dia, Solicitações pendentes, Estatísticas
+  - Fetch agendamentos (onde professional é o user atual)
+  - Rota: `/psychologist/dashboard`
+
+#### Página de Perfil
+- [ ] Criar `src/pages/ProfilePage.jsx`
+  - Header: Foto, nome, badge de tipo (Paciente/Psicólogo)
+  - Dados editáveis: nome, telefone
+  - Se psicólogo: CRP, especialidades, bio, preço
+  - Botões: Alterar foto, Alterar senha, Sair
+  - Rota: `/profile`
+
+#### Migração de Dados
+- [ ] Criar `src/hooks/useFavorites.js`
+  - Migrar de localStorage para Firestore
+  - `users/{uid}/favorites` (array de IDs)
+  - Real-time sync com `onSnapshot`
+- [ ] Criar `src/hooks/useAppointments.js`
+  - Migrar de localStorage para Firestore
+  - Coleção `appointments` com queries por paciente/psicólogo
+  - Novo campo: `status` = "pending" | "approved" | "rejected"
+- [ ] Atualizar `src/pages/FavoritesPage.jsx` (usar hook)
+- [ ] Atualizar `src/pages/AppointmentsPage.jsx` (usar hook)
+
+#### Adaptações de Interface
+- [ ] Atualizar `src/components/BottomNav.jsx`
+  - Não autenticado: [Buscar, Sobre, Entrar]
+  - Paciente: [Buscar, Favoritos, Consultas, Perfil]
+  - Psicólogo: [Buscar, Agenda, Pacientes, Perfil]
+- [ ] Atualizar `src/components/Header.jsx`
+  - Mostrar avatar do usuário (canto direito)
+  - Dropdown: Perfil, Configurações, Sair
+- [ ] Atualizar `src/pages/SearchPage.jsx`
+  - Limitar 3 profissionais se não autenticado
+  - Botão "Entrar para ver mais"
+- [ ] Atualizar `src/pages/ProfessionalPage.jsx`
+  - Ocultar email/telefone se não autenticado
+  - Botão "Entrar para agendar"
+
+#### Testes
+- [ ] `src/pages/ProfilePage.test.jsx`
+- [ ] `src/hooks/useFavorites.test.js`
+- [ ] `src/hooks/useAppointments.test.js`
+- [ ] Atualizar testes existentes (SearchPage, FavoritesPage)
+
+**Resultado:** Perfis diferenciados funcionando, dados migrados para Firestore
+
+---
+
+### 🟠 P2 - MÉDIA-ALTA (Semana 3): Câmera para Foto de Perfil
+
+**Responsável:** Pessoa 3 (Sâmela)  
+**Estimativa:** 12 horas  
+**Dependência:** P1 (ProfilePage existe)
+
+#### Utilitários de Câmera
+- [ ] Criar `src/utils/cameraUtils.js`
+  - `isCameraSupported()` - Verifica se `getUserMedia` disponível
+  - `isIOS()` - Detecta iOS via user agent
+  - `isAndroid()` - Detecta Android
+  - `isMobile()` - Detecta qualquer mobile
+  - `getCameraConstraints(facingMode)` - Configuração da câmera
+- [ ] Criar `src/utils/imageUtils.js`
+  - `resizeImage(blob, maxWidth)` - Redimensiona com Canvas API
+  - `compressImage(blob, quality)` - Comprime JPEG
+  - `blobToBase64(blob)` - Converte para preview
+  - `validateImage(file)` - Valida formato/tamanho
+
+#### Componente de Câmera
+- [ ] Criar `src/components/CameraCapture.jsx`
+  - Props: `onCapture`, `onCancel`, `facingMode`
+  - Tenta `getUserMedia` primeiro (Android/Desktop)
+  - Fallback: `<input type="file" accept="image/*" capture>`  (iOS)
+  - Preview da foto capturada (Canvas)
+  - Botões: "Tirar foto", "Usar essa", "Tirar outra", "Cancelar"
+  - Redimensiona para 800x800px antes de retornar
+- [ ] Criar `src/components/PhotoUpload.jsx`
+  - Preview da foto atual do usuário
+  - Botão "Alterar foto" → Abre CameraCapture
+  - Botão "Escolher arquivo" → Input file normal
+  - Loading durante upload
+  - Integra com Firebase Storage
+
+#### Firebase Storage Service
+- [ ] Criar `src/services/storageService.js`
+  - `uploadProfilePhoto(userId, blob)` → Firebase Storage
+  - Path: `/profile-photos/{userId}.jpg`
+  - Retorna URL pública da foto
+  - `deleteFile(path)` - Remove arquivo antigo
+- [ ] Integrar em `ProfilePage.jsx`
+  - Ao clicar "Alterar foto" → Abre PhotoUpload
+  - Ao salvar → Atualiza `user.photoURL` no Firestore
+  - Atualiza AuthContext (recarrega usuário)
+
+#### Diferenças iOS/Android
+- [ ] **iOS (Safari):**
+  - Documentar limitações (`getUserMedia` < iOS 14.3)
+  - Usar `<input type="file" capture="user">` como primário
+  - Requer HTTPS (configurar Vite para HTTPS local)
+- [ ] **Android (Chrome):**
+  - `getUserMedia` funciona bem
+  - Usar como primário, input como fallback
+- [ ] **Desktop:**
+  - `getUserMedia` para webcam
+  - Fallback para upload de arquivo
+- [ ] Criar `docs/CAMERA_MOBILE.md` documentando diferenças
+
+#### Testes
+- [ ] `src/components/CameraCapture.test.jsx`
+  - Mock `navigator.mediaDevices.getUserMedia`
+  - Testar fallback para input file
+  - Testar detecção de plataforma
+- [ ] `src/utils/cameraUtils.test.js`
+  - Testar funções de detecção
+- [ ] `src/services/storageService.test.js`
+  - Mock Firebase Storage
+
+**Resultado:** Usuários podem tirar foto de perfil com câmera do celular
+
+---
+
+### 🟡 P3 - MÉDIA (Semana 4): Upload de Documentos (Psicólogos)
+
+**Responsável:** Pessoa 3 (Sâmela)  
+**Estimativa:** 10 horas  
+**Dependência:** P2 (CameraCapture pronto)
+
+#### Componente de Upload de Documentos
+- [ ] Criar `src/components/DocumentUpload.jsx`
+  - Props: `documentType` ("crp", "rg_front", "rg_back")
+  - Reutiliza `CameraCapture` internamente
+  - Preview do documento
+  - Validação: formato (JPG/PNG/PDF), tamanho máx 5MB
+  - Status: "pending" | "uploaded" | "verified"
+
+#### Página de Upload
+- [ ] Criar `src/pages/DocumentUploadPage.jsx`
+  - Wizard de 4 steps:
+    1. Intro: "Precisamos verificar sua identidade"
+    2. Upload CRP (frente)
+    3. Upload RG (frente e verso)
+    4. Conclusão: "Documentos enviados!"
+  - Progress bar (25%, 50%, 75%, 100%)
+  - Botões: "Anterior", "Próximo", "Pular" (apenas em dev)
+  - Rota: `/documents/upload`
+
+#### Integração Firebase
+- [ ] Estender `storageService.js`
+  - `uploadDocument(userId, docType, blob)` → Storage
+  - Path: `/documents/{userId}/{docType}.jpg`
+- [ ] Atualizar Firestore (`psychologists/{userId}`)
+  - Campo: `documents` = { crp: url, rg_front: url, rg_back: url }
+  - Campo: `verificationStatus` = "pending" | "approved" | "rejected"
+- [ ] Redirecionar após registro de psicólogo
+  - `RegisterPage` → `DocumentUploadPage` (se psicólogo)
+  - `DocumentUploadPage` → `PsychologistDashboard` (após enviar)
+
+#### Admin Review (Futuro - Mockado por enquanto)
+- [ ] Por enquanto, todos os docs são "pending"
+- [ ] Criar campo `verified` boolean no perfil de psicólogo
+- [ ] Mostrar badge "Verificado ✓" ou "Em análise ⏳" no perfil
+- [ ] (Admin panel fica para pós-TP5)
+
+#### Testes
+- [ ] `src/components/DocumentUpload.test.jsx`
+- [ ] `src/pages/DocumentUploadPage.test.jsx`
+
+**Resultado:** Psicólogos podem enviar documentação via câmera
+
+---
+
+### 🟡 P4 - BAIXA (Semana 4): Polish e Preparação Mobile
+
+**Responsável:** Todos  
+**Estimativa:** 8 horas
+
+#### PWA (Progressive Web App)
+- [ ] Criar `public/manifest.json`
+  - Nome: "MindCare"
+  - Ícones: 192x192, 512x512
+  - Cores: theme, background
+  - Display: "standalone"
+- [ ] Registrar Service Worker (Vite PWA Plugin)
+  - `npm install vite-plugin-pwa -D`
+  - Configurar em `vite.config.js`
+  - Cache de assets estáticos
+  - Offline fallback page
+
+#### Detecção e Adaptações Mobile
+- [ ] Criar `src/hooks/usePlatform.js`
+  - Retorna: `{ isIOS, isAndroid, isMobile, isDesktop }`
+- [ ] Adicionar meta tags mobile
+  - Viewport correto
+  - Apple touch icon
+  - iOS splash screens
+- [ ] Testar em iOS Safari
+  - Permissões de câmera
+  - Comportamento HTTPS
+  - Add to Home Screen
+- [ ] Testar em Android Chrome
+  - Permissões de câmera
+  - Install prompt
+  - Gestos de navegação
+
+#### Documentação Final
+- [ ] Criar `docs/MOBILE_SETUP.md`
+  - Como testar em iOS (ngrok para HTTPS)
+  - Como testar em Android (localhost funciona)
+  - Diferenças de comportamento documentadas
+- [ ] Criar `docs/FIREBASE_SETUP.md`
+  - Passo-a-passo para configurar projeto
+  - Variáveis de ambiente (.env.example)
+  - Regras de segurança (Firestore, Storage)
+- [ ] Atualizar `README.md`
+  - Novas funcionalidades do TP5
+  - Setup do Firebase
+  - Comandos de desenvolvimento
+
+#### Testes Finais
+- [ ] Executar todos os testes (`npm test`)
+- [ ] Cobertura ≥ 85% (`npm run test:coverage`)
+- [ ] Build de produção sem warnings (`npm run build`)
+- [ ] Lighthouse audit (Performance, SEO, Best Practices)
+
+**Resultado:** App pronto para mobile, PWA instalável, documentado
+
+---
+
+### 📊 RESUMO TP5
+
+| Prioridade | Responsável | Horas | Entregas |
+|------------|-------------|-------|----------|
+| P0 - Autenticação | Pessoa 1 | 18h | Login, Register, Guards, Context |
+| P1 - Perfis | Pessoa 2 | 16h | Dashboards, Migration, Adaptações |
+| P2 - Câmera Perfil | Pessoa 3 | 12h | CameraCapture, PhotoUpload |
+| P3 - Documentos | Pessoa 3 | 10h | DocumentUpload, Wizard |
+| P4 - Polish | Todos | 8h | PWA, Testes, Docs |
+| **TOTAL** | **3 pessoas** | **64h** | **~21h por pessoa** |
+
+**Duração:** 4 semanas (part-time) ou 1.5 semanas (full-time)
+
+---
+
+### ✅ CRITÉRIOS DE ACEITAÇÃO TP5
+
+Para considerar TP5 **COMPLETO**:
+
+#### Autenticação
+- [ ] Usuário pode criar conta (email/senha)
+- [ ] Usuário pode fazer login
+- [ ] Usuário pode recuperar senha
+- [ ] Login com Google funciona
+- [ ] Sessão persiste (reload mantém login)
+- [ ] Logout funciona corretamente
+- [ ] Rotas privadas redirecionam para /login
+
+#### Perfis
+- [ ] Paciente vê dashboard de paciente
+- [ ] Psicólogo vê dashboard de psicólogo
+- [ ] BottomNav adapta por tipo de usuário
+- [ ] Favoritos sincronizam com Firestore
+- [ ] Agendamentos sincronizam com Firestore
+- [ ] Psicólogo pode aprovar/rejeitar agendamentos
+
+#### Câmera
+- [ ] Funciona em iOS (Safari)
+- [ ] Funciona em Android (Chrome)
+- [ ] Funciona em Desktop (Chrome/Firefox)
+- [ ] Fallback para upload de arquivo
+- [ ] Foto de perfil atualiza corretamente
+- [ ] Documentos são uploadados via câmera
+
+#### Mobile
+- [ ] App instalável como PWA
+- [ ] Funciona offline (assets cacheados)
+- [ ] Permissões de câmera solicitadas corretamente
+- [ ] Diferenças iOS/Android tratadas
+
+#### Qualidade
+- [ ] Todos os testes passam
+- [ ] Cobertura ≥ 85%
+- [ ] Build sem warnings
+- [ ] Lighthouse score ≥ 80
+
+**Estimativa de Valor:** TP5 transforma o MindCare de protótipo em aplicação real
+
+---
+
+## 🔮 FUTURO - Pós-TP5
+
+### 🔐 Features Complementares (Alta Prioridade)
+
+#### 💳 Sistema de Pagamentos
 
 **Prioridade:** 🟠 Média-Alta  
 **Responsável:** Karina (PO)  
