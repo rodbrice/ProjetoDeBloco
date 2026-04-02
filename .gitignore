@@ -27,6 +27,12 @@ dist-ssr
 coverage/
 .nyc_output/
 
+# Test files (removendo conforme solicitado)
+*.test.jsx
+*.test.js
+**/*.test.jsx
+**/*.test.js
+
 # Environment variables
 .env
 .env.local
@@ -59,8 +65,12 @@ ehthumbs_vista.db
 Desktop.ini
 $RECYCLE.BIN/
 
-# Optional: Personal skills directory (if you want to keep them private)
-# Uncomment the line below if you don't want to commit personal skills
+# Skills (Copilot/Claude/Agents)
+.github/skills/
+.claude/skills/
+.agents/skills/
+
+# Optional: Personal skills directory
 # ~/.copilot/
 # ~/.claude/
 # ~/.agents/

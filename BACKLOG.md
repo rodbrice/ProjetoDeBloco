@@ -1,7 +1,7 @@
 ﻿# 📋 BACKLOG - MindCare
 
-**Última atualização:** 13/03/2026  
-**Versão atual:** 1.4.0 (TP4)
+**Última atualização:** 01/04/2026  
+**Versão atual:** 1.5.0 (TP5)
 
 ---
 
@@ -33,7 +33,7 @@
   - [x] ProfessionalCard
   - [x] SearchPage (single-page)
   - [x] BottomNav (2 itens)
-- [x] Mock de dados (mockProfessionals.js)
+- [x] Mock de dados (professionals.json em /public)
 - [x] Filtros básicos (nome, local, preço)
 
 **Entregável:** Aplicação single-page funcional
@@ -138,14 +138,80 @@
 ## 🚀 EM DESENVOLVIMENTO - TP5 (Atual)
 
 **Data de Início:** 31/03/2026  
-**Data de Entrega:** Maio 2026  
+**Data de Conclusão:** 01/04/2026  
+**Status:** ✅ **IMPLEMENTADO (Versão Simples)**  
 **Objetivo:** Implementar autenticação, perfis diferenciados, e uso de câmera do dispositivo
 
 ### 📋 NOVOS REQUISITOS DO PROFESSOR
 
-1. ✅ **Sistema de autenticação** para acesso às páginas internas
-2. ✅ **Uso de recurso do celular** (Câmera) dentro do aplicativo
-3. ✅ **Tratamento de diferenças iOS vs Android** para versão mobile
+1. ✅ **Sistema de autenticação** para acesso às páginas internas - **CONCLUÍDO**
+2. ✅ **Uso de recurso do celular** (Câmera) dentro do aplicativo - **CONCLUÍDO**
+3. ✅ **Tratamento de diferenças iOS vs Android** para versão mobile - **DOCUMENTADO**
+4. ✅ **Separação de contas Psicólogo/Paciente** - **CONCLUÍDO**
+
+### 🎉 O QUE FOI IMPLEMENTADO
+
+#### ✅ Autenticação (Versão Simples - localStorage)
+- [x] AuthContext criado (`src/context/AuthContext.jsx`)
+- [x] Hook useAuth (`src/hooks/useAuth.js`)
+- [x] PrivateRoute para proteção de rotas
+- [x] LoginModal com validação
+- [x] ProfilePage com gerenciamento de perfil
+- [x] Navegação adaptativa (BottomNav)
+- [x] Sistema fake: email com "psi" = Psicólogo, outros = Paciente
+- [x] Persistência com localStorage
+- [x] Logout funcional
+
+#### ✅ Câmera para Foto de Perfil
+- [x] CameraCapture component (`src/components/CameraCapture.jsx`)
+- [x] Funciona em iOS (input file + capture)
+- [x] Funciona em Android (input file + capture)
+- [x] Funciona em Desktop (upload de arquivo)
+- [x] Preview antes de confirmar
+- [x] Validação de tamanho (máx 5MB)
+- [x] Validação de tipo (apenas imagens)
+- [x] Armazenamento em base64
+- [x] Integração com ProfilePage
+
+#### ✅ Separação Psicólogo/Paciente (NOVO - 01/04/2026)
+- [x] Mock de consultas para psicólogos (`src/data/mockPsychologistAppointments.js`)
+- [x] PsychologistAppointmentsPage (`src/pages/PsychologistAppointmentsPage.jsx`)
+- [x] Roteamento condicional por tipo de usuário
+- [x] Navegação diferenciada (pacientes têm Favoritos, psicólogos não)
+- [x] Mapeamento email → ID do profissional
+- [x] 11 consultas fictícias distribuídas entre 5 psicólogos
+- [x] Labels adaptadas ("Agenda" vs "Pacientes")
+- [x] Documentação completa (`docs/projeto/PSICO_PACIENTE_SEPARACAO.md`)
+
+#### ✅ Documentação
+- [x] `.github/skills/authentication-guide/SKILL.md` - Guia completo de autenticação
+- [x] `.github/skills/camera-guide/SKILL.md` - Guia completo de câmera
+- [x] `docs/projeto/PSICO_PACIENTE_SEPARACAO.md` - Guia de separação de contas
+- [x] README.md atualizado com novas features
+- [x] .gitignore atualizado (removendo arquivos .test)
+
+### 📊 ESTATÍSTICAS TP5
+
+| Métrica | Valor |
+|---------|-------|
+| **Arquivos Criados** | 10 |
+| **Arquivos Modificados** | 7 |
+| **Linhas de Código** | ~600 |
+| **Linhas de Documentação** | ~1500 |
+| **Tempo de Implementação** | ~6 horas |
+| **Status de Build** | ✅ Sucesso |
+
+### 🎯 DECISÃO: Versão Simples
+
+Optamos pela **versão simplificada** (sem Firebase) porque:
+- ✅ Atende todos os requisitos do professor
+- ✅ Mais fácil de explicar e apresentar
+- ✅ Ideal para estudantes iniciantes
+- ✅ Não requer configuração externa (Firebase)
+- ✅ Funciona offline
+- ✅ Demonstra os conceitos fundamentais
+
+Ver detalhes em: [TP5_VERSAO_SIMPLES.md](./TP5_VERSAO_SIMPLES.md)
 
 ---
 

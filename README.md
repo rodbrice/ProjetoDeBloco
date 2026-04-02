@@ -161,6 +161,44 @@ src/
 - Badge com contador
 - Sincronização em tempo real
 
+### 5. Autenticação (TP5) 🆕
+
+- **Login/Logout** - Sistema fake com localStorage
+- **Rotas Protegidas** - PrivateRoute para páginas privadas
+- **Navegação Adaptativa** - Menu muda baseado no login
+- **Tipos de Conta** - Paciente ou Psicólogo (baseado no email)
+
+**Como testar:**
+```bash
+# Acesse /login
+# Email com "psi" → Psicólogo
+# Outros emails → Paciente
+# Senha: qualquer (mínimo 6 caracteres)
+
+Exemplos:
+✅ psi@example.com → Psicólogo
+✅ maria@example.com → Paciente
+```
+
+📖 **Guia Completo:** [.github/skills/authentication-guide/SKILL.md](.github/skills/authentication-guide/SKILL.md)
+
+### 6. Câmera para Foto de Perfil (TP5) 🆕
+
+- **iOS & Android** - Abre câmera nativa do dispositivo
+- **Desktop** - Fallback para upload de arquivo
+- **Preview** - Revisar foto antes de confirmar
+- **Base64** - Armazenamento em localStorage
+
+**Como funciona:**
+1. Faça login
+2. Vá para Perfil (`/profile`)
+3. Clique "📷 Adicionar Foto"
+4. Tire a foto (em celular, abre câmera)
+5. Confirme ou tire outra
+6. Foto aparece no perfil
+
+📖 **Guia Completo:** [.github/skills/camera-guide/SKILL.md](.github/skills/camera-guide/SKILL.md)
+
 ---
 
 ## 🧪 Testes

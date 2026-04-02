@@ -20,8 +20,7 @@ ProjetoDeBloco/
 │   │   └── ProfessionalCard.jsx # Card de profissional (com swipe)
 │   ├── data/                    # Gerenciamento de dados
 │   │   ├── appointmentsStorage.js  # CRUD de agendamentos (localStorage)
-│   │   ├── favoritesStorage.js     # CRUD de favoritos (localStorage)
-│   │   └── mockProfessionals.js    # [DEPRECATED] Dados antigos
+│   │   └── favoritesStorage.js     # CRUD de favoritos (localStorage)
 │   ├── pages/                   # Páginas da aplicação
 │   │   ├── AboutPage.jsx        # Página "Sobre o MindCare"
 │   │   ├── AppointmentsPage.jsx # Lista de agendamentos do usuário

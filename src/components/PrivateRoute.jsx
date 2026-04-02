@@ -3,13 +3,15 @@ import { useAuth } from '../hooks/useAuth'
 
 /**
  * Componente que protege rotas privadas
- * Redireciona para /login se usuário não estiver autenticado
+ * Redireciona para home se usuário não estiver autenticado
+ * (onde o usuário pode clicar em "Entrar" para abrir o modal)
  */
 export default function PrivateRoute() {
   const { user } = useAuth()
 
   if (!user) {
-    return <Navigate to="/login" replace />
+    // Redireciona para home onde usuário pode fazer login via modal
+    return <Navigate to="/" replace />
   }
 
   return <Outlet />
