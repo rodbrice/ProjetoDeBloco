@@ -17,45 +17,40 @@ export default function ProfessionalCard({ professional }) {
   const handleTouchMove = (e) => {
     touchCurrentX.current = e.touches[0].clientX
     const diff = touchCurrentX.current - touchStartX.current
-    
-    // Limita o movimento para não arrastar muito
+
     const maxOffset = 150
     const limitedOffset = Math.max(-maxOffset, Math.min(maxOffset, diff))
-    setSwipeOffset(limitedOffset)
+
+    if (Math.abs(limitedOffset - swipeOffset) > 2) {
+      setSwipeOffset(limitedOffset)
+    }
   }
 
   // Detecta quando solta o dedo
   const handleTouchEnd = () => {
     const swipeThreshold = 80
-    
-    // Swipe para direita = Favoritar
-    if (swipeOffset > swipeThreshold) {
-      const newFavorites = toggleFavorite(professional.id)
-      setIsFav(newFavorites.includes(professional.id))
-      
-      // Feedback visual
+
+    if (swipeOffset > swipeThreshold && !isFav) {
+      toggleFavorite(professional.id)
+      setIsFav(true)
       showSwipeFeedback('Adicionado aos favoritos! ⭐')
     }
-    // Swipe para esquerda = Remover dos favoritos
-    else if (swipeOffset < -swipeThreshold) {
-      const newFavorites = toggleFavorite(professional.id)
-      setIsFav(newFavorites.includes(professional.id))
-      
-      // Feedback visual
+    else if (swipeOffset < -swipeThreshold && isFav) {
+      toggleFavorite(professional.id)
+      setIsFav(false)
       showSwipeFeedback('Removido dos favoritos')
     }
 
-    // Volta para a posição original
     setSwipeOffset(0)
   }
 
-  const showSwipeFeedback = (message) => {
+  function showSwipeFeedback(message) {
     // Simples feedback com alert (pode ser melhorado com um toast notification)
     const feedback = document.createElement('div')
     feedback.className = 'swipe-feedback'
     feedback.textContent = message
     document.body.appendChild(feedback)
-    
+
     setTimeout(() => {
       feedback.remove()
     }, 2000)
@@ -63,8 +58,8 @@ export default function ProfessionalCard({ professional }) {
 
   const handleFavoriteClick = (e) => {
     e.preventDefault()
-    const newFavorites = toggleFavorite(professional.id)
-    setIsFav(newFavorites.includes(professional.id))
+    toggleFavorite(professional.id)
+    setIsFav((prev) => !prev)
   }
 
   // Calcula a opacidade baseada no swipe

@@ -7,7 +7,7 @@ import '../styles/Components.css'
 /**
  * Modal de Login - Card estilizado que abre sobre a página
  */
-export default function LoginModal({ isOpen, onClose }) {
+export default function LoginModal({ isOpen, onClose, onSwitchToRegister }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -175,6 +175,15 @@ export default function LoginModal({ isOpen, onClose }) {
 
         {/* Footer */}
         <div style={{ padding: '16px 24px', borderTop: '1px solid #E5E9F0', background: '#F8F9FB', borderRadius: '0 0 16px 16px', textAlign: 'center' }}>
+          <p style={{ margin: '0 0 8px 0', fontSize: '0.875rem', color: '#4C566A' }}>
+            Não tem conta?{' '}
+            <button
+              onClick={onSwitchToRegister}
+              style={{ background: 'none', border: 'none', color: '#5E81AC', fontWeight: 700, cursor: 'pointer', fontSize: '0.875rem', fontFamily: 'inherit', textDecoration: 'underline', padding: 0 }}
+            >
+              Criar conta
+            </button>
+          </p>
           <small style={{ color: '#6B7A8F', fontSize: '0.75rem' }}>
             🔓 Autenticação fake para demonstração
           </small>

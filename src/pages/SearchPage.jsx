@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import ProfessionalCard from '../components/ProfessionalCard.jsx'
+import { loadRegisteredProfessionals } from '../data/registeredProfessionalsStorage'
 import '../styles/SearchPage.css'
 
 export default function SearchPage() {
@@ -23,7 +24,14 @@ export default function SearchPage() {
         }
         
         const data = await response.json()
-        setProfessionals(data.professionals || [])
+        const fromJson = data.professionals || []
+        const fromStorage = loadRegisteredProfessionals()
+
+        // Evita duplicatas — prioriza o JSON; só adiciona do storage se id não existir
+        const jsonIds = new Set(fromJson.map((p) => p.id))
+        const newOnes = fromStorage.filter((p) => !jsonIds.has(p.id))
+
+        setProfessionals([...fromJson, ...newOnes])
       } catch (err) {
         console.error('Erro ao carregar profissionais:', err)
         setError('Não conseguimos carregar a lista de profissionais. Por favor, tente novamente mais tarde.')

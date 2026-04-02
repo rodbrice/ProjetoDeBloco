@@ -3,11 +3,13 @@ import { loadFavorites } from '../data/favoritesStorage.js'
 import { useEffect, useState } from 'react'
 import { useAuth } from '../hooks/useAuth'
 import LoginModal from './LoginModal'
+import RegisterModal from './RegisterModal'
 
 export default function BottomNav() {
   const { user } = useAuth()
   const [favoritesCount, setFavoritesCount] = useState(0)
   const [showLoginModal, setShowLoginModal] = useState(false)
+  const [showRegisterModal, setShowRegisterModal] = useState(false)
 
   useEffect(() => {
     // Atualiza o contador de favoritos apenas se estiver logado
@@ -52,7 +54,15 @@ export default function BottomNav() {
         {/* Modal de Login */}
         <LoginModal 
           isOpen={showLoginModal} 
-          onClose={() => setShowLoginModal(false)} 
+          onClose={() => setShowLoginModal(false)}
+          onSwitchToRegister={() => { setShowLoginModal(false); setShowRegisterModal(true) }}
+        />
+
+        {/* Modal de Registro */}
+        <RegisterModal
+          isOpen={showRegisterModal}
+          onClose={() => setShowRegisterModal(false)}
+          onSwitchToLogin={() => { setShowRegisterModal(false); setShowLoginModal(true) }}
         />
       </>
     )

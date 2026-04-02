@@ -44,6 +44,30 @@ export function AuthProvider({ children }) {
   }
 
   /**
+   * Registro FAKE - apenas para demonstração
+   * Em produção, faria chamada para API real
+   */
+  function register(name, email, password, userType, extra = {}) {
+    const fakeUser = {
+      id: Date.now(),
+      email,
+      name,
+      userType,
+      photo: null,
+      phone: extra.phone || null,
+      crp: extra.crp || null,
+      clinicAddress: extra.clinicAddress || null,
+      createdAt: new Date().toISOString()
+    }
+
+    setUser(fakeUser)
+    localStorage.setItem('mindcare_user', JSON.stringify(fakeUser))
+
+
+    return fakeUser
+  }
+
+  /**
    * Logout - remove usuário do estado e localStorage
    */
   function logout() {
@@ -78,6 +102,7 @@ export function AuthProvider({ children }) {
   const value = {
     user,
     login,
+    register,
     logout,
     updatePhoto,
     updateProfile,

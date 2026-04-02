@@ -2,11 +2,17 @@
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import CameraCapture from '../components/CameraCapture'
+import CreateListingModal from '../components/CreateListingModal'
+import { findProfessionalByUserId } from '../data/registeredProfessionalsStorage'
 import '../styles/Components.css'
 
 export default function ProfilePage() {
   const { user, logout, updatePhoto } = useAuth()
   const [showCamera, setShowCamera] = useState(false)
+  const [showListingModal, setShowListingModal] = useState(false)
+  const [listingPublished, setListingPublished] = useState(() =>
+    user ? !!findProfessionalByUserId(user.id) : false
+  )
   const navigate = useNavigate()
 
   function handlePhotoCapture(photoBase64) {
@@ -31,6 +37,7 @@ export default function ProfilePage() {
   }
 
   return (
+      <>
       <div className="page-container">
         <div className="page-content">
           <div className="profile-container">
@@ -51,7 +58,7 @@ export default function ProfilePage() {
 
               <button
                   onClick={() => setShowCamera(true)}
-                  className="btn-secondary btn-photo"
+                  className="btn btn-secondary"
               >
                 📷 {user.photo ? 'Alterar' : 'Adicionar'} Foto
               </button>
@@ -86,7 +93,16 @@ export default function ProfilePage() {
             </div>
 
             <div className="profile-actions">
-              <button onClick={handleLogout} className="btn-danger btn-logout">
+              {user.userType === 'psychologist' && (
+                <button
+                  onClick={() => setShowListingModal(true)}
+                  className="btn btn-primary"
+                  style={listingPublished ? { background: 'var(--success)', borderColor: 'var(--success)' } : undefined}
+                >
+                  {listingPublished ? '✏️ Editar Anúncio' : '📢 Criar Anúncio'}
+                </button>
+              )}
+              <button onClick={handleLogout} className="btn btn-danger btn-logout">
                 🚪 Sair da Conta
               </button>
             </div>
@@ -100,6 +116,13 @@ export default function ProfilePage() {
           </div>
         </div>
       </div>
+
+      <CreateListingModal
+        isOpen={showListingModal}
+        onClose={() => setShowListingModal(false)}
+        onSuccess={() => setListingPublished(true)}
+      />
+      </>
   )
 }
 
