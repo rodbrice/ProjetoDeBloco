@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { toggleFavorite, isFavorite } from '../data/favoritesStorage.js'
+import { loadRegisteredProfessionals } from '../data/registeredProfessionalsStorage'
 import '../styles/Components.css'
 
 export default function ProfessionalPage() {
@@ -21,7 +22,13 @@ export default function ProfessionalPage() {
         }
         
         const data = await response.json()
-        const found = data.professionals.find((p) => p.id === id)
+        let found = data.professionals.find((p) => p.id === id)
+
+        // Se não encontrado no JSON, busca nos cadastrados via app
+        if (!found) {
+          found = loadRegisteredProfessionals().find((p) => p.id === id) || null
+        }
+
         setProfessional(found || null)
         
         if (found) {
@@ -123,6 +130,25 @@ export default function ProfessionalPage() {
         <div className="section-label">Sobre</div>
         <div className="section-content">{professional.bio}</div>
       </div>
+
+      {(professional.clinicAddress || professional.city) && (
+        <div className="profile-section">
+          <div className="section-label">📍 Endereço da Clínica</div>
+          <div className="section-content">
+            {professional.clinicAddress && <div>{professional.clinicAddress}</div>}
+            {(professional.city || professional.state) && (
+              <div style={{ marginTop: professional.clinicAddress ? '4px' : 0, color: 'var(--text-muted)', fontSize: 'var(--text-sm)' }}>
+                {[professional.city, professional.state].filter(Boolean).join(' - ')}
+              </div>
+            )}
+            {professional.phone && (
+              <div style={{ marginTop: '8px', fontSize: 'var(--text-sm)' }}>
+                📞 {professional.phone}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       <div className="profile-section">
         <div className="section-label">Modalidades</div>

@@ -57,6 +57,8 @@ export function AuthProvider({ children }) {
       phone: extra.phone || null,
       crp: extra.crp || null,
       clinicAddress: extra.clinicAddress || null,
+      city: extra.city || null,
+      state: extra.state || null,
       createdAt: new Date().toISOString()
     }
 

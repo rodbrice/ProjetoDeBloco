@@ -12,7 +12,9 @@ export default function CreateListingModal({ isOpen, onClose, onSuccess }) {
   function getInitial() {
     const existing = user ? findProfessionalByUserId(user.id) : null
     return {
-      location: existing?.location ?? (user?.clinicAddress || ''),
+      location: existing?.location ?? (
+        [user?.city, user?.state].filter(Boolean).join(' - ') || user?.clinicAddress || ''
+      ),
       price: existing?.price ?? '',
       bio: existing?.bio ?? '',
       experience: existing?.experience ?? (user?.crp ? `CRP: ${user.crp}` : ''),

@@ -51,12 +51,14 @@ export function findProfessionalByUserId(userId) {
  */
 export function buildProfessionalFromListing(user, listing) {
   const slug = buildSlug(user.name) || `psi-${user.id}`
+  // Localização curta para o card: "Cidade - UF"
+  const shortLocation = [user.city, user.state].filter(Boolean).join(' - ') || listing.location
   return {
     id: slug,
     userId: user.id,
     name: user.name,
     specialties: listing.specialties,
-    location: listing.location,
+    location: shortLocation,
     price: Number(listing.price),
     bio: listing.bio,
     tags: listing.tags,
@@ -64,6 +66,9 @@ export function buildProfessionalFromListing(user, listing) {
     approach: listing.approach,
     phone: user.phone || null,
     crp: user.crp || null,
+    clinicAddress: user.clinicAddress || null,
+    city: user.city || null,
+    state: user.state || null,
     isRegistered: true,
   }
 }

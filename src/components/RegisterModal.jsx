@@ -9,6 +9,12 @@ const CRP_REGEX = /^\d{2}\/\d{5}$/
 // (XX) 9 XXXX-XXXX
 const PHONE_REGEX = /^\(\d{2}\) 9 \d{4}-\d{4}$/
 
+const BR_STATES = [
+  'AC','AL','AP','AM','BA','CE','DF','ES','GO','MA',
+  'MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN',
+  'RS','RO','RR','SC','SP','SE','TO',
+]
+
 /**
  * Aplica máscara de telefone brasileiro: (DDD) 9 XXXX-XXXX
  * Aceita apenas os 11 dígitos do usuário (DDD + 9 + 8 dígitos)
@@ -31,6 +37,8 @@ export default function RegisterModal({ isOpen, onClose, onSwitchToLogin }) {
   const [phone, setPhone] = useState('')
   const [crp, setCrp] = useState('')
   const [clinicAddress, setClinicAddress] = useState('')
+  const [city, setCity] = useState('')
+  const [state, setState] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState('')
@@ -50,7 +58,7 @@ export default function RegisterModal({ isOpen, onClose, onSwitchToLogin }) {
       return
     }
 
-    if (isPsychologist && (!crp || !clinicAddress)) {
+    if (isPsychologist && (!crp || !clinicAddress || !city || !state)) {
       setError('Preencha todos os campos obrigatórios')
       return
     }
@@ -83,6 +91,8 @@ export default function RegisterModal({ isOpen, onClose, onSwitchToLogin }) {
           phone,
           crp: isPsychologist ? crp : null,
           clinicAddress: isPsychologist ? clinicAddress : null,
+          city: isPsychologist ? city : null,
+          state: isPsychologist ? state : null,
         })
 
         onClose()
@@ -106,6 +116,8 @@ export default function RegisterModal({ isOpen, onClose, onSwitchToLogin }) {
     setPhone('')
     setCrp('')
     setClinicAddress('')
+    setCity('')
+    setState('')
     setPassword('')
     setConfirmPassword('')
     setError('')
@@ -256,11 +268,42 @@ export default function RegisterModal({ isOpen, onClose, onSwitchToLogin }) {
                           type="text"
                           id="register-clinic"
                           style={inputStyle}
-                          placeholder="Rua, número, bairro, cidade"
+                          placeholder="Rua, número, bairro"
                           value={clinicAddress}
                           onChange={(e) => setClinicAddress(e.target.value)}
                           disabled={isLoading}
                       />
+                    </div>
+
+                    {/* Cidade e Estado — linha dupla */}
+                    <div style={{ display: 'flex', gap: '12px' }}>
+                      <div style={{ ...fieldStyle, flex: 1 }}>
+                        <label htmlFor="register-city" style={labelStyle}>Cidade</label>
+                        <input
+                          type="text"
+                          id="register-city"
+                          style={inputStyle}
+                          placeholder="Ex: São Paulo"
+                          value={city}
+                          onChange={(e) => setCity(e.target.value)}
+                          disabled={isLoading}
+                        />
+                      </div>
+                      <div style={{ ...fieldStyle, width: '100px' }}>
+                        <label htmlFor="register-state" style={labelStyle}>Estado</label>
+                        <select
+                          id="register-state"
+                          style={{ ...inputStyle, background: '#fff', cursor: 'pointer' }}
+                          value={state}
+                          onChange={(e) => setState(e.target.value)}
+                          disabled={isLoading}
+                        >
+                          <option value="">UF</option>
+                          {BR_STATES.map((uf) => (
+                            <option key={uf} value={uf}>{uf}</option>
+                          ))}
+                        </select>
+                      </div>
                     </div>
                   </>
               )}
