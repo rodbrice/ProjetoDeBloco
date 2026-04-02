@@ -33,17 +33,17 @@
         <div className="team-grid">
           <div className="team-member">
             <div className="team-avatar">👨‍💻</div>
-            <div className="team-name">Brice</div>
+            <div className="team-name">Brice Roduit</div>
             <div className="team-role">Scrum Master & Dev</div>
           </div>
           <div className="team-member">
             <div className="team-avatar">👩‍💻</div>
-            <div className="team-name">Karina</div>
+            <div className="team-name">Karina Freire</div>
             <div className="team-role">Product Owner</div>
           </div>
           <div className="team-member">
             <div className="team-avatar">👩‍💻</div>
-            <div className="team-name">Sâmela</div>
+            <div className="team-name">Sâmela Magalhães</div>
             <div className="team-role">Developer</div>
           </div>
         </div>
@@ -65,7 +65,7 @@
         <p>
           <strong>MindCare</strong> - Projeto de Bloco - Desenvolvimento Front-end com Frameworks
         </p>
-        <p className="about-version">Versão 1.4.0 - TP4 (2026)</p>
+        <p className="about-version">Versão 1.5.0 - TP5 (2026)</p>
       </div>
     </div>
   )
