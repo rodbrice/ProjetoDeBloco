@@ -25,7 +25,7 @@ export default function SearchPage() {
         
         const data = await response.json()
         const fromJson = data.professionals || []
-        const fromStorage = loadRegisteredProfessionals()
+        const fromStorage = await loadRegisteredProfessionals()
 
         // Evita duplicatas — prioriza o JSON; só adiciona do storage se id não existir
         const jsonIds = new Set(fromJson.map((p) => p.id))

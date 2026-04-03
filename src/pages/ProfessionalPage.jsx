@@ -26,7 +26,8 @@ export default function ProfessionalPage() {
 
         // Se não encontrado no JSON, busca nos cadastrados via app
         if (!found) {
-          found = loadRegisteredProfessionals().find((p) => p.id === id) || null
+          const registered = await loadRegisteredProfessionals()
+          found = registered.find((p) => p.id === id) || null
         }
 
         setProfessional(found || null)

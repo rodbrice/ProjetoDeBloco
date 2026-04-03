@@ -1,4 +1,4 @@
-﻿import { useState } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import CameraCapture from '../components/CameraCapture'
@@ -10,10 +10,16 @@ export default function ProfilePage() {
   const { user, logout, updatePhoto } = useAuth()
   const [showCamera, setShowCamera] = useState(false)
   const [showListingModal, setShowListingModal] = useState(false)
-  const [listingPublished, setListingPublished] = useState(() =>
-    user ? !!findProfessionalByUserId(user.id) : false
-  )
+  const [listingPublished, setListingPublished] = useState(false)
   const navigate = useNavigate()
+
+  // Carrega se já tem anúncio publicado (async)
+  useEffect(() => {
+    if (!user) return
+    findProfessionalByUserId(user.id).then((found) => {
+      setListingPublished(!!found)
+    })
+  }, [user])
 
   function handlePhotoCapture(photoBase64) {
     updatePhoto(photoBase64)

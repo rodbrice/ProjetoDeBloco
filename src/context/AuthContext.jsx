@@ -6,20 +6,20 @@ import {
   onAuthStateChanged,
   updateProfile as fbUpdateProfile,
 } from 'firebase/auth'
-import { auth } from '../firebase'
+import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore'
+import { auth, db } from '../firebase'
 
 export const AuthContext = createContext({})
 
-/* ───── helpers para perfil extra (localStorage por UID) ───── */
-const profileKey = (uid) => `mindcare_profile_${uid}`
-
-function saveProfile(uid, data) {
-  localStorage.setItem(profileKey(uid), JSON.stringify(data))
+/* ───── helpers Firestore — coleção "users", doc = UID ───── */
+async function saveProfile(uid, data) {
+  await setDoc(doc(db, 'users', uid), data, { merge: true })
 }
 
-function loadProfile(uid) {
+async function loadProfile(uid) {
   try {
-    return JSON.parse(localStorage.getItem(profileKey(uid))) || {}
+    const snap = await getDoc(doc(db, 'users', uid))
+    return snap.exists() ? snap.data() : {}
   } catch {
     return {}
   }
@@ -44,42 +44,31 @@ function buildUser(firebaseUser, profile = {}) {
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)   // true enquanto verifica sessão
+  const [loading, setLoading] = useState(true)
 
-  /* ── onAuthStateChanged: reidrata sessão automaticamente ── */
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        const profile = loadProfile(firebaseUser.uid)
+        const profile = await loadProfile(firebaseUser.uid)
         setUser(buildUser(firebaseUser, profile))
       } else {
         setUser(null)
       }
       setLoading(false)
     })
-    return unsubscribe   // cleanup ao desmontar
+    return unsubscribe
   }, [])
 
-  /**
-   * Login real com Firebase Auth
-   * @returns {Promise<object>} user
-   */
   async function login(email, password) {
     const { user: fbUser } = await signInWithEmailAndPassword(auth, email, password)
-    const profile = loadProfile(fbUser.uid)
+    const profile = await loadProfile(fbUser.uid)
     const appUser = buildUser(fbUser, profile)
     setUser(appUser)
     return appUser
   }
 
-  /**
-   * Registro real com Firebase Auth
-   * Cria conta + salva dados extras no localStorage (perfil)
-   */
   async function register(name, email, password, userType, extra = {}) {
     const { user: fbUser } = await createUserWithEmailAndPassword(auth, email, password)
-
-    // Salva displayName no Firebase Auth
     await fbUpdateProfile(fbUser, { displayName: name })
 
     const profile = {
@@ -93,39 +82,30 @@ export function AuthProvider({ children }) {
       state: extra.state || null,
       createdAt: new Date().toISOString(),
     }
-    saveProfile(fbUser.uid, profile)
+    await saveProfile(fbUser.uid, profile)
 
     const appUser = buildUser(fbUser, profile)
     setUser(appUser)
     return appUser
   }
 
-  /**
-   * Logout via Firebase — limpa sessão automaticamente
-   */
   async function logout() {
     await signOut(auth)
     setUser(null)
   }
 
-  /**
-   * Atualiza foto do usuário (localStorage + estado)
-   */
-  function updatePhoto(photoBase64) {
+  async function updatePhoto(photoBase64) {
     if (!user) return
     const updatedUser = { ...user, photo: photoBase64 }
     setUser(updatedUser)
-    saveProfile(user.id, { ...loadProfile(user.id), photo: photoBase64 })
+    await updateDoc(doc(db, 'users', user.id), { photo: photoBase64 })
   }
 
-  /**
-   * Atualiza dados do perfil (localStorage + estado)
-   */
-  function updateProfile(data) {
+  async function updateProfile(data) {
     if (!user) return
     const updatedUser = { ...user, ...data }
     setUser(updatedUser)
-    saveProfile(user.id, { ...loadProfile(user.id), ...data })
+    await updateDoc(doc(db, 'users', user.id), data)
   }
 
   const value = {

@@ -1,4 +1,5 @@
-﻿const STORAGE_KEY = 'mindcare.registered_professionals.v1'
+﻿import { collection, doc, setDoc, getDocs, query, where } from 'firebase/firestore'
+import { db } from '../firebase'
 
 /** Gera slug URL-safe a partir do nome */
 function buildSlug(name) {
@@ -11,47 +12,48 @@ function buildSlug(name) {
 }
 
 /**
- * Carrega a lista de psicólogos registrados pelo app
+ * Carrega a lista de psicólogos registrados (Firestore)
  */
-export function loadRegisteredProfessionals() {
+export async function loadRegisteredProfessionals() {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return []
-    const parsed = JSON.parse(raw)
-    return Array.isArray(parsed) ? parsed : []
+    const snap = await getDocs(collection(db, 'professionals'))
+    return snap.docs.map((d) => ({ id: d.id, ...d.data() }))
   } catch {
     return []
   }
 }
 
 /**
- * Salva um psicólogo registrado pelo app (cria ou atualiza)
+ * Salva um psicólogo registrado (cria ou atualiza no Firestore)
  */
-export function saveRegisteredProfessional(professional) {
+export async function saveRegisteredProfessional(professional) {
   try {
-    const current = loadRegisteredProfessionals()
-    const withoutDuplicate = current.filter((p) => p.id !== professional.id)
-    localStorage.setItem(STORAGE_KEY, JSON.stringify([...withoutDuplicate, professional]))
-  } catch {
-    // ignora erros de gravação (modo privado, quota excedida, etc)
+    await setDoc(doc(db, 'professionals', professional.id), professional, { merge: true })
+  } catch (err) {
+    console.error('Erro ao salvar profissional no Firestore:', err)
   }
 }
 
 /**
- * Busca o anúncio de um psicólogo pelo userId da conta
+ * Busca o anúncio de um psicólogo pelo userId
  */
-export function findProfessionalByUserId(userId) {
-  return loadRegisteredProfessionals().find((p) => p.userId === userId) || null
+export async function findProfessionalByUserId(userId) {
+  try {
+    const q = query(collection(db, 'professionals'), where('userId', '==', userId))
+    const snap = await getDocs(q)
+    if (snap.empty) return null
+    const d = snap.docs[0]
+    return { id: d.id, ...d.data() }
+  } catch {
+    return null
+  }
 }
 
 /**
  * Constrói o objeto de profissional a partir dos dados do formulário de anúncio
- * @param {object} user    - Usuário autenticado
- * @param {object} listing - Dados preenchidos no formulário
  */
 export function buildProfessionalFromListing(user, listing) {
   const slug = buildSlug(user.name) || `psi-${user.id}`
-  // Localização curta para o card: "Cidade - UF"
   const shortLocation = [user.city, user.state].filter(Boolean).join(' - ') || listing.location
   return {
     id: slug,

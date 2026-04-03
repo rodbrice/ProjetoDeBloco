@@ -1,4 +1,4 @@
-﻿import { useState } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { useAuth } from '../hooks/useAuth'
 import { saveRegisteredProfessional, buildProfessionalFromListing, findProfessionalByUserId } from '../data/registeredProfessionalsStorage'
@@ -8,36 +8,48 @@ const ATTENDANCE_OPTIONS = ['Presencial', 'Online']
 export default function CreateListingModal({ isOpen, onClose, onSuccess }) {
   const { user } = useAuth()
 
-  // Pré-carrega dados existentes se já tiver anúncio
-  function getInitial() {
-    const existing = user ? findProfessionalByUserId(user.id) : null
-    return {
-      location: existing?.location ?? (
-        [user?.city, user?.state].filter(Boolean).join(' - ') || user?.clinicAddress || ''
-      ),
-      price: existing?.price ?? '',
-      bio: existing?.bio ?? '',
-      experience: existing?.experience ?? (user?.crp ? `CRP: ${user.crp}` : ''),
-      approach: existing?.approach ?? '',
-      specialties: existing?.specialties ?? [],
-      tags: existing?.tags ?? [],
-    }
-  }
-
-  const initial = getInitial()
-
-  const [location, setLocation] = useState(initial.location)
-  const [price, setPrice] = useState(initial.price)
-  const [bio, setBio] = useState(initial.bio)
-  const [experience, setExperience] = useState(initial.experience)
-  const [approach, setApproach] = useState(initial.approach)
-  const [specialties, setSpecialties] = useState(initial.specialties)
+  const [location, setLocation] = useState('')
+  const [price, setPrice] = useState('')
+  const [bio, setBio] = useState('')
+  const [experience, setExperience] = useState('')
+  const [approach, setApproach] = useState('')
+  const [specialties, setSpecialties] = useState([])
   const [specialtyInput, setSpecialtyInput] = useState('')
-  const [tags, setTags] = useState(initial.tags)
+  const [tags, setTags] = useState([])
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [isEdit, setIsEdit] = useState(false)
 
-  const isEdit = !!findProfessionalByUserId(user?.id)
+  // Pré-carrega dados existentes (async) quando o modal abre
+  useEffect(() => {
+    if (!isOpen || !user) return
+    let cancelled = false
+
+    findProfessionalByUserId(user.id).then((existing) => {
+      if (cancelled) return
+      if (existing) {
+        setIsEdit(true)
+        setLocation(existing.location ?? '')
+        setPrice(existing.price ?? '')
+        setBio(existing.bio ?? '')
+        setExperience(existing.experience ?? '')
+        setApproach(existing.approach ?? '')
+        setSpecialties(existing.specialties ?? [])
+        setTags(existing.tags ?? [])
+      } else {
+        setIsEdit(false)
+        setLocation([user.city, user.state].filter(Boolean).join(' - ') || user.clinicAddress || '')
+        setPrice('')
+        setBio('')
+        setExperience(user.crp ? `CRP: ${user.crp}` : '')
+        setApproach('')
+        setSpecialties([])
+        setTags([])
+      }
+    })
+
+    return () => { cancelled = true }
+  }, [isOpen, user])
 
   function addSpecialty() {
     const value = specialtyInput.trim()
@@ -67,7 +79,7 @@ export default function CreateListingModal({ isOpen, onClose, onSuccess }) {
     )
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
     setError('')
 
@@ -81,26 +93,24 @@ export default function CreateListingModal({ isOpen, onClose, onSuccess }) {
 
     setIsLoading(true)
 
-    setTimeout(() => {
-      try {
-        const professional = buildProfessionalFromListing(user, {
-          location: location.trim(),
-          price,
-          bio: bio.trim(),
-          experience: experience.trim(),
-          approach: approach.trim(),
-          specialties,
-          tags,
-        })
-        saveRegisteredProfessional(professional)
-        onClose()
-        onSuccess?.()
-      } catch {
-        setError('Erro ao salvar anúncio. Tente novamente.')
-      } finally {
-        setIsLoading(false)
-      }
-    }, 500)
+    try {
+      const professional = buildProfessionalFromListing(user, {
+        location: location.trim(),
+        price,
+        bio: bio.trim(),
+        experience: experience.trim(),
+        approach: approach.trim(),
+        specialties,
+        tags,
+      })
+      await saveRegisteredProfessional(professional)
+      onClose()
+      onSuccess?.()
+    } catch {
+      setError('Erro ao salvar anúncio. Tente novamente.')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   if (!isOpen) return null
