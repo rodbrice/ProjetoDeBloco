@@ -49,7 +49,7 @@ export default function RegisterModal({ isOpen, onClose, onSwitchToLogin }) {
 
   const isPsychologist = userType === 'psychologist'
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
     setError('')
 
@@ -85,28 +85,35 @@ export default function RegisterModal({ isOpen, onClose, onSwitchToLogin }) {
 
     setIsLoading(true)
 
-    setTimeout(() => {
-      try {
-        const user = register(name, email, password, userType, {
-          phone,
-          crp: isPsychologist ? crp : null,
-          clinicAddress: isPsychologist ? clinicAddress : null,
-          city: isPsychologist ? city : null,
-          state: isPsychologist ? state : null,
-        })
+    try {
+      const user = await register(name, email, password, userType, {
+        phone,
+        crp: isPsychologist ? crp : null,
+        clinicAddress: isPsychologist ? clinicAddress : null,
+        city: isPsychologist ? city : null,
+        state: isPsychologist ? state : null,
+      })
 
-        onClose()
-        resetFields()
+      onClose()
+      resetFields()
 
-        if (user.userType === 'psychologist') {
-          navigate('/profile')
-        }
-      } catch (err) {
-        setError('Erro ao criar conta. Tente novamente.')
-      } finally {
-        setIsLoading(false)
+      if (user.userType === 'psychologist') {
+        navigate('/profile')
       }
-    }, 500)
+    } catch (err) {
+      const code = err.code
+      if (code === 'auth/email-already-in-use') {
+        setError('Este email já está cadastrado. Tente fazer login.')
+      } else if (code === 'auth/invalid-email') {
+        setError('Email inválido.')
+      } else if (code === 'auth/weak-password') {
+        setError('Senha muito fraca. Use pelo menos 6 caracteres.')
+      } else {
+        setError('Erro ao criar conta. Tente novamente.')
+      }
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   function resetFields() {
@@ -338,7 +345,7 @@ export default function RegisterModal({ isOpen, onClose, onSwitchToLogin }) {
                 Entrar
               </button>
             </p>
-            <small style={{ color: '#6B7A8F', fontSize: '0.75rem' }}>🔓 Autenticação fake para demonstração</small>
+            <small style={{ color: '#6B7A8F', fontSize: '0.75rem' }}>🔐 Autenticação segura com Firebase</small>
           </div>
         </div>
       </div>,

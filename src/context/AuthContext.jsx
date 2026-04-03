@@ -1,56 +1,88 @@
 ﻿import { createContext, useState, useEffect } from 'react'
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+  updateProfile as fbUpdateProfile,
+} from 'firebase/auth'
+import { auth } from '../firebase'
 
 export const AuthContext = createContext({})
 
+/* ───── helpers para perfil extra (localStorage por UID) ───── */
+const profileKey = (uid) => `mindcare_profile_${uid}`
+
+function saveProfile(uid, data) {
+  localStorage.setItem(profileKey(uid), JSON.stringify(data))
+}
+
+function loadProfile(uid) {
+  try {
+    return JSON.parse(localStorage.getItem(profileKey(uid))) || {}
+  } catch {
+    return {}
+  }
+}
+
+/** Monta o objeto "user" que o app inteiro consome */
+function buildUser(firebaseUser, profile = {}) {
+  return {
+    id: firebaseUser.uid,
+    email: firebaseUser.email,
+    name: profile.name || firebaseUser.displayName || firebaseUser.email.split('@')[0],
+    userType: profile.userType || 'patient',
+    photo: profile.photo || null,
+    phone: profile.phone || null,
+    crp: profile.crp || null,
+    clinicAddress: profile.clinicAddress || null,
+    city: profile.city || null,
+    state: profile.state || null,
+    createdAt: profile.createdAt || new Date().toISOString(),
+  }
+}
+
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)   // true enquanto verifica sessão
 
+  /* ── onAuthStateChanged: reidrata sessão automaticamente ── */
   useEffect(() => {
-    // Carregar usuário do localStorage ao iniciar
-    const savedUser = localStorage.getItem('mindcare_user')
-    if (savedUser) {
-      try {
-        setUser(JSON.parse(savedUser))
-      } catch (error) {
-        console.error('Erro ao carregar usuário:', error)
-        localStorage.removeItem('mindcare_user')
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      if (firebaseUser) {
+        const profile = loadProfile(firebaseUser.uid)
+        setUser(buildUser(firebaseUser, profile))
+      } else {
+        setUser(null)
       }
-    }
+      setLoading(false)
+    })
+    return unsubscribe   // cleanup ao desmontar
   }, [])
 
   /**
-   * Login FAKE - apenas para demonstração
-   * Em produção, faria chamada para API real
+   * Login real com Firebase Auth
+   * @returns {Promise<object>} user
    */
-  function login(email, password) {
-    // Determina tipo de usuário baseado no email
-    const userType = email.toLowerCase().includes('psi') 
-      ? 'psychologist' 
-      : 'patient'
-    
-    const fakeUser = {
-      id: Date.now(),
-      email,
-      name: email.split('@')[0], // Nome é a parte antes do @
-      userType,
-      photo: null,
-      createdAt: new Date().toISOString()
-    }
-    
-    setUser(fakeUser)
-    localStorage.setItem('mindcare_user', JSON.stringify(fakeUser))
-    
-    return fakeUser
+  async function login(email, password) {
+    const { user: fbUser } = await signInWithEmailAndPassword(auth, email, password)
+    const profile = loadProfile(fbUser.uid)
+    const appUser = buildUser(fbUser, profile)
+    setUser(appUser)
+    return appUser
   }
 
   /**
-   * Registro FAKE - apenas para demonstração
-   * Em produção, faria chamada para API real
+   * Registro real com Firebase Auth
+   * Cria conta + salva dados extras no localStorage (perfil)
    */
-  function register(name, email, password, userType, extra = {}) {
-    const fakeUser = {
-      id: Date.now(),
-      email,
+  async function register(name, email, password, userType, extra = {}) {
+    const { user: fbUser } = await createUserWithEmailAndPassword(auth, email, password)
+
+    // Salva displayName no Firebase Auth
+    await fbUpdateProfile(fbUser, { displayName: name })
+
+    const profile = {
       name,
       userType,
       photo: null,
@@ -59,50 +91,46 @@ export function AuthProvider({ children }) {
       clinicAddress: extra.clinicAddress || null,
       city: extra.city || null,
       state: extra.state || null,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
     }
+    saveProfile(fbUser.uid, profile)
 
-    setUser(fakeUser)
-    localStorage.setItem('mindcare_user', JSON.stringify(fakeUser))
-
-
-    return fakeUser
+    const appUser = buildUser(fbUser, profile)
+    setUser(appUser)
+    return appUser
   }
 
   /**
-   * Logout - remove usuário do estado e localStorage
+   * Logout via Firebase — limpa sessão automaticamente
    */
-  function logout() {
+  async function logout() {
+    await signOut(auth)
     setUser(null)
-    localStorage.removeItem('mindcare_user')
   }
 
   /**
-   * Atualiza foto do usuário
-   * @param {string} photoBase64 - Foto em base64
+   * Atualiza foto do usuário (localStorage + estado)
    */
   function updatePhoto(photoBase64) {
     if (!user) return
-    
     const updatedUser = { ...user, photo: photoBase64 }
     setUser(updatedUser)
-    localStorage.setItem('mindcare_user', JSON.stringify(updatedUser))
+    saveProfile(user.id, { ...loadProfile(user.id), photo: photoBase64 })
   }
 
   /**
-   * Atualiza dados do perfil
-   * @param {object} data - Dados a atualizar
+   * Atualiza dados do perfil (localStorage + estado)
    */
   function updateProfile(data) {
     if (!user) return
-    
     const updatedUser = { ...user, ...data }
     setUser(updatedUser)
-    localStorage.setItem('mindcare_user', JSON.stringify(updatedUser))
+    saveProfile(user.id, { ...loadProfile(user.id), ...data })
   }
 
   const value = {
     user,
+    loading,
     login,
     register,
     logout,

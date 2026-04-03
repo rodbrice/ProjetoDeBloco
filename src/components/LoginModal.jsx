@@ -16,7 +16,7 @@ export default function LoginModal({ isOpen, onClose, onSwitchToRegister }) {
   const { login } = useAuth()
   const navigate = useNavigate()
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
     setError('')
 
@@ -33,30 +33,37 @@ export default function LoginModal({ isOpen, onClose, onSwitchToRegister }) {
 
     setIsLoading(true)
 
-    // Simular delay de rede (para mostrar loading)
-    setTimeout(() => {
-      try {
-        const user = login(email, password)
-        
-        // Fecha o modal
-        onClose()
-        
-        // Limpa os campos
-        setEmail('')
-        setPassword('')
-        setError('')
-        
-        // Opcional: Redireciona se for psicólogo
-        if (user.userType === 'psychologist') {
-          // Pode redirecionar para dashboard específico no futuro
-          navigate('/profile')
-        }
-      } catch (err) {
-        setError('Erro ao fazer login. Tente novamente.')
-      } finally {
-        setIsLoading(false)
+    try {
+      const user = await login(email, password)
+
+      // Fecha o modal
+      onClose()
+
+      // Limpa os campos
+      setEmail('')
+      setPassword('')
+      setError('')
+
+      // Redireciona se for psicólogo
+      if (user.userType === 'psychologist') {
+        navigate('/profile')
       }
-    }, 500)
+    } catch (err) {
+      const code = err.code
+      if (code === 'auth/user-not-found' || code === 'auth/invalid-credential') {
+        setError('Email ou senha incorretos.')
+      } else if (code === 'auth/wrong-password') {
+        setError('Senha incorreta.')
+      } else if (code === 'auth/invalid-email') {
+        setError('Email inválido.')
+      } else if (code === 'auth/too-many-requests') {
+        setError('Muitas tentativas. Tente novamente mais tarde.')
+      } else {
+        setError('Erro ao fazer login. Tente novamente.')
+      }
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   // Se não está aberto, não renderiza nada
@@ -160,15 +167,11 @@ export default function LoginModal({ isOpen, onClose, onSwitchToRegister }) {
             </button>
           </form>
 
-          {/* Dicas para teste */}
+          {/* Dicas */}
           <div style={{ background: '#E5EBF3', border: '1px solid rgba(94,129,172,0.2)', borderRadius: '8px', padding: '16px' }}>
-            <p style={{ fontWeight: 600, color: '#5E81AC', fontSize: '0.875rem', marginBottom: '8px' }}>💡 Dica para teste:</p>
-            <ul style={{ margin: '0 0 12px 0', paddingLeft: '16px', color: '#4C566A', fontSize: '0.875rem' }}>
-              <li>Email com <strong>"psi"</strong> → Psicólogo</li>
-              <li>Outros emails → Paciente</li>
-            </ul>
+            <p style={{ fontWeight: 600, color: '#5E81AC', fontSize: '0.875rem', marginBottom: '8px' }}>💡 Primeira vez?</p>
             <small style={{ fontSize: '0.75rem', color: '#6B7A8F' }}>
-              Ex: <code style={{ background: 'rgba(94,129,172,0.1)', padding: '2px 6px', borderRadius: '4px', color: '#5E81AC' }}>psi@example.com</code> ou <code style={{ background: 'rgba(94,129,172,0.1)', padding: '2px 6px', borderRadius: '4px', color: '#5E81AC' }}>maria@example.com</code>
+              Crie uma conta clicando em <strong>"Criar conta"</strong> abaixo.
             </small>
           </div>
         </div>
@@ -185,7 +188,7 @@ export default function LoginModal({ isOpen, onClose, onSwitchToRegister }) {
             </button>
           </p>
           <small style={{ color: '#6B7A8F', fontSize: '0.75rem' }}>
-            🔓 Autenticação fake para demonstração
+            🔐 Autenticação segura com Firebase
           </small>
         </div>
       </div>

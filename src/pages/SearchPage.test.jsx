@@ -63,14 +63,18 @@ describe('SearchPage', () => {
   })
 
   it('deve mostrar mensagem de erro quando falha ao carregar', async () => {
-    fetch.mockRejectedValue(new Error('Erro de rede'))
+    const spy = vi.spyOn(console, 'error').mockImplementation(() => {})
 
+    fetch.mockRejectedValue(new Error('Erro de rede'))
     renderWithRouter(<SearchPage />)
 
     await waitFor(() => {
       expect(screen.getByText(/não conseguimos carregar/i)).toBeInTheDocument()
     })
+
+    spy.mockRestore()
   })
+
 
   it('deve filtrar profissionais por nome/especialidade', async () => {
     fetch.mockResolvedValue({

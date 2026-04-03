@@ -7,10 +7,18 @@ import { useAuth } from '../hooks/useAuth'
  * (onde o usuário pode clicar em "Entrar" para abrir o modal)
  */
 export default function PrivateRoute() {
-  const { user } = useAuth()
+  const { user, loading } = useAuth()
+
+  // Aguarda Firebase verificar a sessão antes de redirecionar
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
+        <p style={{ color: '#5E81AC', fontSize: '1.1rem' }}>Verificando sessão…</p>
+      </div>
+    )
+  }
 
   if (!user) {
-    // Redireciona para home onde usuário pode fazer login via modal
     return <Navigate to="/" replace />
   }
 
