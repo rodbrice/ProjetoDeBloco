@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { loadRegisteredProfessionals } from '../data/registeredProfessionalsStorage'
 import '../styles/Components.css'
 
 const TIME_SLOTS = ['09:00', '10:30', '14:00', '15:30', '18:00']
@@ -28,7 +29,15 @@ export default function NewAppointmentPage({ onCreate }) {
       try {
         const response = await fetch('/professionals.json')
         const data = await response.json()
-        setProfessionals(data.professionals || [])
+        const fromJson = data.professionals || []
+
+        const fromFirestore = await loadRegisteredProfessionals()
+
+        // Evita duplicatas — prioriza o JSON; só adiciona do Firestore se id não existir
+        const jsonIds = new Set(fromJson.map((p) => p.id))
+        const newOnes = fromFirestore.filter((p) => !jsonIds.has(p.id))
+
+        setProfessionals([...fromJson, ...newOnes])
       } catch (err) {
         console.error('Erro ao carregar profissionais:', err)
       } finally {
